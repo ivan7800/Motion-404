@@ -1,6 +1,14 @@
 # Changelog
 
-## 1.2.0 — 2026-08-02
+## 1.2.1 — Preparación pública y operativa
+
+- Añadidos canonical, Open Graph y Twitter Card con URL pública estable.
+- Añadidos `robots.txt` y `sitemap.xml`.
+- Añadida documentación específica de seguridad, privacidad, pruebas, despliegue y riesgos conocidos.
+- Incrementada la versión de caché del Service Worker para publicar los metadatos nuevos sin conservar el shell anterior.
+
+
+## 1.2.1 — 2026-08-02
 
 - Integrado el icono original Universo 404 en cabecera, pie, favicon y PWA.
 - Sustituidas las previsualizaciones abstractas por ocho miniaturas fotorealistas locales.

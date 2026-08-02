@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ivan7800.github.io/Motion-404/sitemap.xml
