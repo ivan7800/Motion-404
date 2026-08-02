@@ -47,9 +47,16 @@ def main() -> None:
         assert page.locator(".prompt-card").count() == 12
         assert "180" in page.locator("#resultsCount").inner_text()
 
-        page.locator("#searchInput").fill("Arquitectura")
-        assert page.locator(".prompt-card").count() > 0
+        assert page.locator("#sectorCount").inner_text() == "17"
+        for query in ("aplicacion", "automocion", "tipografia", "diseno"):
+            page.locator("#searchInput").fill(query)
+            page.wait_for_timeout(50)
+            assert int(page.locator("#resultsCount").inner_text().split()[0]) > 0, query
         page.locator("#clearFilters").click()
+        page.locator("#portableDocsButton").click()
+        assert page.locator("#infoDialog").get_attribute("open") is not None
+        assert "documentación" in page.locator("#infoDialog").inner_text().lower()
+        page.locator("#infoDialog [data-close-dialog]").click()
 
         first = page.locator(".prompt-card").first
         first.locator('[data-action="favorite"]').click()

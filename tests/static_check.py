@@ -73,7 +73,7 @@ def main() -> None:
     assert '[hidden]{display:none!important}' in css, 'Author display rules must not expose controls marked hidden.'
     assert 'aria-labelledby="generatedTitle"' in html and 'id="generatedTitle" tabindex="-1"' in html
     assert 'A11y ready' not in html
-    assert 'assets/universo-404.png' in html
+    assert 'assets/universo-404.webp' in html
     assert 'assets/examples/architecture.webp' in js
     assert 'class="example-image"' in js, 'Do not claim complete accessibility without a full audit.'
     assert '--accent-text:#b63a12' in css, 'Light-theme accent text must preserve readable contrast.'
@@ -105,14 +105,14 @@ def main() -> None:
     sw = (ROOT / 'sw.js').read_text(encoding='utf-8')
     core_match = re.search(r'const CORE = \[(.*?)\];', sw, re.S)
     assert core_match
-    assert "cache.put(event.request" in sw, 'Navigation responses must be cached under their own request.'
+    assert "cache.put(request" in sw, 'Navigation responses must be cached under their own request.'
     assert "cache.put(APP_SHELL" not in sw, 'Non-app navigations must not overwrite the app shell cache.'
     assert "const CACHE_PREFIX = 'motion-404-'" in sw
     assert 'motion-404-${' not in sw
-    assert 'v1.2.0' in sw
+    assert 'v1.3.1' in sw
     assert 'key.startsWith(CACHE_PREFIX) && key !== CACHE' in sw, 'Activation must not delete caches belonging to other GitHub Pages apps.'
-    assert 'const cached = await cache.match(event.request)' in sw, 'Runtime lookup must be isolated to the Motion 404 cache.'
-    assert 'caches.match(event.request)' not in sw, 'Avoid cross-application cache lookups on a shared origin.'
+    assert 'const cached = await cache.match(request)' in sw, 'Runtime lookup must be isolated to the Motion 404 cache.'
+    assert 'caches.match(event.request)' not in sw and 'caches.match(request)' not in sw, 'Avoid cross-application cache lookups on a shared origin.'
     for rel in re.findall(r"'([^']+)'", core_match.group(1)):
         if rel == './': continue
         assert (ROOT / rel.removeprefix('./')).exists(), f'Missing cached resource: {rel}'

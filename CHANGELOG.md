@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.3.1] — 2026-08-02
+
+### Corregido
+- La búsqueda ya ignora tildes y diacríticos: `aplicacion`, `automocion`, `tipografia` y `diseno` encuentran sus equivalentes acentuados.
+- El número de sectores se calcula desde el catálogo real en lugar de estar codificado manualmente.
+- `tests/smoke.py` obtiene la versión vigente desde el changelog y la contrasta con README y Service Worker.
+- El enlace de documentación abre el diálogo interno, válido también en GitHub Pages y en la versión portátil.
+
+### Mejorado
+- Logo convertido de PNG a WebP: aproximadamente 464 KB → 81 KB.
+- Iconos PWA cuantizados sin cambiar dimensiones ni rutas: aproximadamente 576 KB → 125 KB.
+- Eliminado CSS obsoleto de las antiguas previsualizaciones `.card-mock`.
+- Caché PWA actualizada a `v1.3.1` y versión portátil regenerada.
+- Añadidas regresiones automáticas para búsquedas sin tildes y coherencia de versión.
+
+## 1.3.0 — 2026-08-02
+
+### Corregido
+
+- Eliminada una condición duplicada en la navegación por teclado de las pestañas del diálogo.
+- Eliminado el aviso de consola al fallar el registro del Service Worker; ahora se informa de forma accesible en la interfaz.
+
+### Mejorado
+
+- Añadido estado accesible de conexión: avisa cuando la aplicación queda sin red y cuando la conexión vuelve.
+- Renovada la estrategia PWA: navegación `network-first` y recursos estáticos `stale-while-revalidate`.
+- Añadida la captura social a la precaché y actualizada la caché a `v1.3.0`.
+- Mostrada la versión real de la aplicación en el pie y en “Acerca de”.
+- Ampliadas las pruebas automáticas para cubrir el estado online/offline y la nueva estrategia de caché.
+- Regenerada la versión portátil desde los archivos fuente.
+
 ## 1.2.1 — Preparación pública y operativa
 
 - Añadidos canonical, Open Graph y Twitter Card con URL pública estable.

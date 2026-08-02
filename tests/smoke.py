@@ -5,6 +5,7 @@ import contextlib
 import http.server
 import json
 import os
+import re
 import shutil
 import socketserver
 import threading
@@ -64,6 +65,12 @@ def main() -> None:
         assert page.locator(".prompt-card").count() == 12
         assert "180" in page.locator("#resultsCount").inner_text()
 
+        page.locator("#searchInput").fill("aplicacion")
+        page.wait_for_timeout(100)
+        assert int(page.locator("#resultsCount").inner_text().split()[0]) > 0
+        page.locator("#searchInput").fill("diseno")
+        page.wait_for_timeout(100)
+        assert int(page.locator("#resultsCount").inner_text().split()[0]) > 0
         page.locator("#searchInput").fill("Arquitectura")
         page.wait_for_timeout(100)
         filtered = int(page.locator("#resultsCount").inner_text().split()[0])
@@ -112,7 +119,14 @@ def main() -> None:
         assert len(manifest_data["icons"]) == 3
 
         sw = page.request.get(f"http://127.0.0.1:{port}/sw.js")
-        assert sw.ok and "v1.1.1" in sw.text()
+        assert sw.ok
+        changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        version_match = re.search(r"^## \[(\d+\.\d+\.\d+)\]", changelog, re.M)
+        assert version_match, "CHANGELOG sin versión vigente"
+        current_version = version_match.group(1)
+        assert f"v{current_version}" in sw.text()
+        assert current_version in readme
 
         page.locator("#clearFilters").click()
         page.locator("#loadMoreButton").click()
@@ -131,10 +145,10 @@ def main() -> None:
         page.evaluate("navigator.serviceWorker.ready.then(() => true)")
         page.reload(wait_until="networkidle")
         assert page.evaluate("Boolean(navigator.serviceWorker.controller)")
-        docs = context.new_page()
-        docs.goto(f"http://127.0.0.1:{port}/README.md", wait_until="networkidle")
-        assert "Motion 404" in docs.locator("body").inner_text()
-        docs.close()
+        page.locator("#portableDocsButton").click()
+        assert page.locator("#infoDialog").get_attribute("open") is not None
+        assert "documentación" in page.locator("#infoDialog").inner_text().lower()
+        page.locator("#infoDialog [data-close-dialog]").click()
         context.set_offline(True)
         page.reload(wait_until="domcontentloaded")
         assert page.title() == "Motion 404 — Prompt Studio"
