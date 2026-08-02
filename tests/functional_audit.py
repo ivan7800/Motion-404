@@ -51,6 +51,12 @@ def main() -> None:
         # Arranque y accesibilidad básica.
         assert page.locator("#hero-title").is_visible()
         assert page.locator("#installButton").is_hidden(), "Install control must not be a dead button outside an installable context."
+        assert page.locator("#networkStatus").is_hidden()
+        page.evaluate("Object.defineProperty(navigator,'onLine',{configurable:true,value:false}); window.dispatchEvent(new Event('offline'))")
+        assert page.locator("#networkStatus").is_visible()
+        assert "Sin conexión" in (page.locator("#networkStatus").text_content() or "")
+        page.evaluate("Object.defineProperty(navigator,'onLine',{configurable:true,value:true}); window.dispatchEvent(new Event('online'))")
+        assert page.locator("#networkStatus").is_hidden()
         assert page.locator(".prompt-card").count() == 12
         catalog_shape = page.evaluate("""({count:basePrompts.length,ids:new Set(basePrompts.map(item=>item.id)).size,titles:new Set(basePrompts.map(item=>item.title)).size,empty:basePrompts.filter(item=>!item.title||!item.prompt).length})""")
         assert catalog_shape == {"count": 180, "ids": 180, "titles": 180, "empty": 0}

@@ -37,7 +37,7 @@
 
   <header class="site-header" id="inicio">
     <a class="brand" href="#inicio" aria-label="Motion 404, inicio">
-      <img class="brand-logo" src="assets/universo-404.png" width="46" height="46" alt="">
+      <img class="brand-logo" src="assets/universo-404.webp" width="46" height="46" alt="">
       <span><strong>Motion</strong><small>Prompt Studio</small></span>
     </a>
     <nav class="desktop-nav" aria-label="Navegación principal">
@@ -49,7 +49,8 @@
       <button class="icon-button" id="themeButton" type="button" aria-label="Cambiar tema" title="Cambiar tema">
         <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z"/></svg>
       </button>
-      <button class="button button-secondary install-button" id="installButton" type="button" hidden>Instalar</button>
+      <span class="network-status" id="networkStatus" role="status" aria-live="polite" hidden></span>
+      <button class="button button-secondary install-button" id="installButton" type="button" aria-label="Instalar Motion 404 como aplicación" hidden>Instalar</button>
       <a class="button button-primary" href="#generador">Crear prompt</a>
     </div>
   </header>
@@ -66,7 +67,7 @@
         </div>
         <dl class="hero-stats" aria-label="Estadísticas de la biblioteca">
           <div><dt id="promptCount">180</dt><dd>prompts</dd></div>
-          <div><dt>18</dt><dd>sectores</dd></div>
+          <div><dt id="sectorCount">17</dt><dd>sectores</dd></div>
           <div><dt>100%</dt><dd>local</dd></div>
         </dl>
       </div>
@@ -74,7 +75,7 @@
       <div class="hero-stage reveal" aria-hidden="true">
         <div class="orbit orbit-one"></div>
         <div class="orbit orbit-two"></div>
-        <img class="hero-universe-logo" src="assets/universo-404.png" width="164" height="164" alt="" loading="eager">
+        <img class="hero-universe-logo" src="assets/universo-404.webp" width="164" height="164" alt="" loading="eager">
         <div class="stage-window">
           <div class="window-bar"><span></span><span></span><span></span><small>motion-404.local</small></div>
           <div class="window-canvas">
@@ -110,7 +111,7 @@
         <label class="search-field">
           <span class="sr-only">Buscar prompts</span>
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
-          <input id="searchInput" type="search" placeholder="Buscar estilo, sector o tecnología…" autocomplete="off">
+          <input id="searchInput" type="search" placeholder="Buscar estilo, sector o tecnología…" autocomplete="off" aria-keyshortcuts="/">
           <kbd>/</kbd>
         </label>
         <div class="toolbar-buttons">
@@ -202,10 +203,10 @@
   </main>
 
   <footer class="site-footer section-shell">
-    <div class="footer-brand"><a class="brand" href="#inicio"><img class="brand-logo" src="assets/universo-404.png" width="46" height="46" alt=""><span><strong>Motion</strong><small>Prompt Studio</small></span></a><p>Una herramienta original del ecosistema Universo 404.</p></div>
+    <div class="footer-brand"><a class="brand" href="#inicio"><img class="brand-logo" src="assets/universo-404.webp" width="46" height="46" alt=""><span><strong>Motion</strong><small>Prompt Studio</small></span></a><p>Una herramienta original del ecosistema Universo 404.</p></div>
     <div><strong>Producto</strong><a href="#catalogo">Biblioteca</a><a href="#generador">Generador</a><button id="exportDataButton" type="button">Exportar datos</button><button id="importDataButton" type="button">Importar datos</button><button id="clearDataButton" type="button">Borrar datos locales</button><input id="importFileInput" type="file" accept="application/json" hidden></div>
-    <div><strong>Información</strong><button id="aboutButton" type="button">Acerca de</button><button id="privacyButton" type="button">Privacidad</button><a href="README.md">Documentación</a></div>
-    <p class="footer-bottom">© <span id="year"></span> I. Roig · Motion 404 <span>Diseñado para crear, no para rastrear.</span></p>
+    <div><strong>Información</strong><button id="aboutButton" type="button">Acerca de</button><button id="privacyButton" type="button">Privacidad</button><button id="portableDocsButton" type="button">Documentación</button></div>
+    <p class="footer-bottom">© <span id="year"></span> I. Roig · Motion 404 <span>v<span id="appVersion">1.3.1</span> · Diseñado para crear, no para rastrear.</span></p>
   </footer>
 
   <dialog class="prompt-dialog" id="promptDialog" aria-labelledby="dialogTitle" aria-describedby="dialogDescription">

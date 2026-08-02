@@ -1,22 +1,26 @@
-# Motion 404 — QA v1.2.0
+# Motion 404 — QA v1.3.1
 
 ## Resultado
 
-**Estado:** RELEASE CANDIDATE
+**Estado:** PUBLICABLE CON VALIDACIÓN EXTERNA PENDIENTE
 
 ## Superadas
 
 - Estructura, rutas, manifest, CSP y sintaxis JavaScript.
-- 180 prompts, render inicial, filtros, favoritos, generador, importación y exportación.
-- Seguridad básica de entradas y regresión XSS.
-- Responsive, teclado, foco, movimiento reducido y versión portátil.
-- Logotipo Universo 404, miniaturas WebP, vista ampliada y assets offline declarados.
-- Sin errores de página ni consola en la auditoría funcional y portable.
+- Catálogo de 180 prompts únicos y completos.
+- Búsqueda, filtros, favoritos, selección aleatoria y carga incremental.
+- Generador, guardado, Markdown, importación, exportación y borrado.
+- Normalización de datos corruptos y regresiones XSS.
+- Diálogos, pestañas, teclado, foco y reducción de movimiento.
+- Estado online/offline accesible.
+- Responsive de 320 px a escritorio sin scroll horizontal en las pruebas automatizadas.
+- Versión portátil sincronizada y sin errores de página o consola.
+- Service Worker con caché aislada, limpieza de versiones antiguas y estrategias diferenciadas.
 
 ## No verificado en este entorno
 
-- Navegación automatizada mediante `127.0.0.1`, bloqueada por la política del Chromium instalado.
-- Service Worker, instalación PWA y offline reales bajo HTTPS.
+- Instalación PWA y modo offline reales en la URL HTTPS publicada.
+- Lighthouse y Web Vitals medidos en producción.
 - Safari, Firefox, iPhone, iPad y Android físicos.
 
-**Informe completo:** `AUDITORIA-PROFESIONAL-v1.2.0.md`
+**Informe completo:** `AUDITORIA-FINAL-v1.3.1.md`

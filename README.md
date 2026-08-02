@@ -1,6 +1,6 @@
 # Motion 404 — Prompt Studio
 
-**Versión 1.2.1** · Aplicación web estática y PWA para explorar, adaptar, generar, guardar y exportar prompts profesionales destinados a crear webs y aplicaciones animadas con asistentes de IA.
+**Versión 1.3.1** · Aplicación web estática y PWA para explorar, adaptar, generar, guardar y exportar prompts profesionales destinados a crear webs y aplicaciones animadas con asistentes de IA.
 
 ![Vista principal de Motion 404](assets/preview.jpg)
 
@@ -31,8 +31,9 @@ También puede abrirse `index.html` directamente después de extraer todo el ZIP
 - Confirmación antes de sustituir datos mediante importación.
 - Borrado de favoritos, prompts y preferencias desde la propia interfaz.
 - Tema oscuro y claro, color de interfaz sincronizado y contraste de texto corregido.
-- Manifest, Service Worker, caché offline y rutas relativas preparados para GitHub Pages. La instalación y el modo offline deben validarse en la URL publicada.
+- Manifest, Service Worker, caché offline y rutas relativas preparados para GitHub Pages. La navegación usa estrategia network-first y los recursos estáticos stale-while-revalidate. La instalación y el modo offline deben validarse en la URL publicada.
 - El botón de instalación solo aparece cuando el navegador confirma que la PWA puede instalarse.
+- Indicador accesible de pérdida de conexión y aviso al recuperar la red.
 - Cachés aisladas para no borrar datos offline de otras aplicaciones publicadas bajo el mismo dominio de GitHub Pages.
 - Sin cuentas, backend, telemetría, cookies de seguimiento ni dependencias externas en producción.
 
@@ -60,7 +61,7 @@ Motion-404/
 ├── README.md
 ├── CHANGELOG.md
 ├── QA-REPORT.md
-├── AUDITORIA-PROFESIONAL-v1.2.1.md
+├── AUDITORIA-FINAL-v1.3.1.md
 └── LICENSE
 ```
 
@@ -91,7 +92,7 @@ python tests/functional_audit.py
 python tests/smoke.py
 ```
 
-`functional_audit.py` cubre búsqueda, filtros, todos los botones principales, persistencia simulada, recuperación de datos corruptos, copia y fallback, diálogos, teclado, foco, generador, importación, exportación, borrado, tema, instalación simulada, 320 px, ausencia de JavaScript y movimiento reducido. `smoke.py` necesita navegación HTTP local y añade comprobaciones de Service Worker y offline.
+`functional_audit.py` cubre búsqueda, filtros, todos los botones principales, persistencia simulada, recuperación de datos corruptos, copia y fallback, diálogos, teclado, foco, generador, importación, exportación, borrado, tema, estado online/offline, instalación simulada, 320 px, ausencia de JavaScript y movimiento reducido. `smoke.py` necesita navegación HTTP local y añade comprobaciones de Service Worker y offline.
 
 Para regenerar el archivo autónomo después de modificar HTML, CSS o JavaScript:
 

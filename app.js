@@ -1,3 +1,4 @@
+const APP_VERSION = '1.3.1';
 const CATALOG_VERSION = 1;
 const STORAGE_KEY = 'motion404-state-v1';
 const PAGE_SIZE = 12;
@@ -255,19 +256,25 @@ let state = {
 const $ = (selector, root=document) => root.querySelector(selector);
 const $$ = (selector, root=document) => [...root.querySelectorAll(selector)];
 const els = {
-  promptCount:$('#promptCount'), grid:$('#promptGrid'), results:$('#resultsCount'), activeFilter:$('#activeFilterText'),
+  promptCount:$('#promptCount'), sectorCount:$('#sectorCount'), grid:$('#promptGrid'), results:$('#resultsCount'), activeFilter:$('#activeFilterText'),
   empty:$('#emptyState'), loadMore:$('#loadMoreButton'), categoryFilters:$('#categoryFilters'), search:$('#searchInput'),
   stack:$('#stackFilter'), level:$('#levelFilter'), sort:$('#sortFilter'), favToggle:$('#favoritesToggle'), favCount:$('#favoriteCount'),
   dialog:$('#promptDialog'), dialogTitle:$('#dialogTitle'), dialogDescription:$('#dialogDescription'), dialogPreview:$('#dialogPreview'),
   dialogBadges:$('#dialogBadges'), dialogPrompt:$('#dialogPrompt'), dialogChecklist:$('#dialogChecklist'), dialogFavorite:$('#dialogFavorite'),
   generatedPanel:$('#generatedPanel'), generatedPrompt:$('#generatedPrompt'), generatedTitle:$('#generatedTitle'), generatedMeta:$('#generatedMeta'),
   infoDialog:$('#infoDialog'), infoEyebrow:$('#infoDialogEyebrow'), infoTitle:$('#infoDialogTitle'), infoBody:$('#infoDialogBody'),
-  themeColor:$('#themeColorMeta'), toast:$('#toastRegion')
+  themeColor:$('#themeColorMeta'), toast:$('#toastRegion'), networkStatus:$('#networkStatus')
 };
 
 function allPrompts() { return [...persisted.customPrompts,...basePrompts]; }
 function escapeHTML(value='') { return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
-function slugify(value) { return value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60) || 'prompt-motion-404'; }
+function normalizeSearchText(value='') { return String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es').trim(); }
+const searchIndex = new WeakMap();
+function searchableText(prompt) {
+  if (!searchIndex.has(prompt)) searchIndex.set(prompt, normalizeSearchText([prompt.title,prompt.category,prompt.industry,prompt.description,prompt.style,prompt.motion,prompt.stack,prompt.level].join(' ')));
+  return searchIndex.get(prompt);
+}
+function slugify(value) { return normalizeSearchText(value).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60) || 'prompt-motion-404'; }
 function isFavorite(id) { return persisted.favorites.includes(id); }
 function toggleFavorite(id) {
   if (!id || !findPrompt(id)) return;
@@ -324,10 +331,9 @@ function promptCard(prompt) {
 }
 
 function getFilteredPrompts() {
-  const query = state.query.trim().toLocaleLowerCase('es');
+  const query = normalizeSearchText(state.query);
   let list = allPrompts().filter(prompt => {
-    const haystack = [prompt.title,prompt.category,prompt.industry,prompt.description,prompt.style,prompt.motion,prompt.stack,prompt.level].join(' ').toLocaleLowerCase('es');
-    return (!query || haystack.includes(query)) &&
+    return (!query || searchableText(prompt).includes(query)) &&
       (state.category === 'Todos' || prompt.category === state.category) &&
       (state.stack === 'all' || prompt.stack === state.stack) &&
       (state.level === 'all' || prompt.level === state.level) &&
@@ -353,7 +359,9 @@ function render() {
   els.loadMore.parentElement.hidden=list.length<=state.visible;
   els.favCount.textContent=persisted.favorites.length;
   els.favToggle.setAttribute('aria-pressed',String(state.favoritesOnly));
-  els.promptCount.textContent=allPrompts().length;
+  const prompts=allPrompts();
+  els.promptCount.textContent=prompts.length;
+  els.sectorCount.textContent=new Set(prompts.map(prompt=>prompt.industry).filter(Boolean)).size;
   $$('[data-category]',els.categoryFilters).forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.category===state.category)));
 }
 function resetFilters() {
@@ -520,7 +528,7 @@ function openInfo(type) {
   const addParagraph=text=>{const paragraph=document.createElement('p');paragraph.textContent=text;els.infoBody.append(paragraph);};
   if(type==='about'){
     els.infoEyebrow.textContent='Acerca de'; els.infoTitle.textContent='Motion 404';
-    addParagraph('Biblioteca y laboratorio local de prompts para diseñar productos digitales con asistentes de IA. El catálogo es original y se genera dentro de la propia aplicación.');
+    addParagraph(`Biblioteca y laboratorio local de prompts para diseñar productos digitales con asistentes de IA. Versión ${APP_VERSION}. El catálogo es original y se genera dentro de la propia aplicación.`);
     addParagraph('No está afiliada a MotionSites ni reutiliza sus prompts premium, marca o recursos visuales.');
   } else if(type==='privacy') {
     els.infoEyebrow.textContent='Privacidad'; els.infoTitle.textContent='Sin rastreo.';
@@ -534,6 +542,15 @@ function openInfo(type) {
   }
   els.infoDialog.showModal();
 }
+
+function updateNetworkStatus() {
+  if (!els.networkStatus) return;
+  const offline = navigator.onLine === false;
+  els.networkStatus.hidden = !offline;
+  els.networkStatus.textContent = offline ? 'Sin conexión' : '';
+  els.networkStatus.classList.toggle('is-offline', offline);
+}
+
 function applyTheme(theme,persist=true) {
   const safeTheme=theme==='light'?'light':'dark'; persisted.theme=safeTheme; document.documentElement.dataset.theme=safeTheme;
   if(els.themeColor)els.themeColor.content=safeTheme==='dark'?'#07090d':'#f0eee9';
@@ -541,7 +558,7 @@ function applyTheme(theme,persist=true) {
   if(persist&&!saveState())toast('Tema aplicado solo durante esta sesión: el almacenamiento no está disponible.');
 }
 
-renderFilters(); fillGeneratorOptions(); applyTheme(persisted.theme,false); render(); $('#year').textContent=new Date().getFullYear();
+renderFilters(); fillGeneratorOptions(); applyTheme(persisted.theme,false); render(); $('#year').textContent=new Date().getFullYear(); $('#appVersion').textContent=APP_VERSION;
 if(stateRecoveryNotice)setTimeout(()=>toast(storageAvailable?'Se recuperaron datos locales dañados o incompatibles.':'El almacenamiento local no está disponible; los cambios durarán solo esta sesión.'),0);
 
 els.search.addEventListener('input',e=>{state.query=e.target.value;state.visible=PAGE_SIZE;render();});
@@ -563,6 +580,10 @@ $('#copyGenerated').addEventListener('click',()=>state.generatedText&&copyText(s
 $('#exportDataButton').addEventListener('click',exportData);$('#importDataButton').addEventListener('click',()=>$('#importFileInput').click());$('#importFileInput').addEventListener('change',e=>{importData(e.target.files?.[0]);e.target.value='';});$('#clearDataButton').addEventListener('click',clearLocalData);
 $('#aboutButton').addEventListener('click',()=>openInfo('about'));$('#privacyButton').addEventListener('click',()=>openInfo('privacy'));$('#portableDocsButton')?.addEventListener('click',()=>openInfo('docs'));$('#themeButton').addEventListener('click',()=>applyTheme(persisted.theme==='dark'?'light':'dark'));
 
+window.addEventListener('online',()=>{updateNetworkStatus();toast('Conexión restablecida.');});
+window.addEventListener('offline',()=>{updateNetworkStatus();toast('Sin conexión: se usará el contenido disponible sin conexión.');});
+updateNetworkStatus();
+
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)){e.preventDefault();els.search.focus();}if(e.key==='Escape'&&document.activeElement===els.search){els.search.blur();}});
 
 if ('IntersectionObserver' in window) {
@@ -579,5 +600,5 @@ installButton.addEventListener('click',async()=>{if(!deferredInstall)return;try{
 window.addEventListener('appinstalled',()=>toast('Motion 404 se ha instalado.'));
 
 if ('serviceWorker' in navigator && ['http:','https:'].includes(location.protocol)) {
-  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>console.warn('Service Worker no disponible en este contexto.')));
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>toast('El modo offline no pudo activarse en este navegador.')));
 }
