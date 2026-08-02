@@ -1,6 +1,6 @@
 # Motion 404 — Prompt Studio
 
-**Versión 1.2.0** · Aplicación web estática y PWA para explorar, adaptar, generar, guardar y exportar prompts profesionales destinados a crear webs y aplicaciones animadas con asistentes de IA.
+**Versión 1.2.1** · Aplicación web estática y PWA para explorar, adaptar, generar, guardar y exportar prompts profesionales destinados a crear webs y aplicaciones animadas con asistentes de IA.
 
 ![Vista principal de Motion 404](assets/preview.jpg)
 
@@ -60,7 +60,7 @@ Motion-404/
 ├── README.md
 ├── CHANGELOG.md
 ├── QA-REPORT.md
-├── AUDITORIA-PROFESIONAL-v1.2.0.md
+├── AUDITORIA-PROFESIONAL-v1.2.1.md
 └── LICENSE
 ```
 
