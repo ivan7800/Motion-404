@@ -1,13 +1,11 @@
 const CACHE_PREFIX = 'motion-404-';
-const CACHE = `${CACHE_PREFIX}v1.3.1`;
+const CACHE = `${CACHE_PREFIX}v2.0.1`;
 const APP_SHELL = './index.html';
 const CORE = [
-  './', APP_SHELL, './styles.css', './app.js', './manifest.webmanifest',
+  './', APP_SHELL, './v2.html', './motion-v2.css', './motion-v2.js',
+  './motion-v2.0.1-preflight.js', './motion-v2.0.1-patch.js', './manifest.webmanifest',
   './assets/icons/icon-192.png', './assets/icons/icon-512.png', './assets/icons/icon-maskable-512.png',
-  './assets/universo-404.webp', './assets/preview.jpg',
-  './assets/examples/architecture.webp', './assets/examples/dashboard.webp', './assets/examples/travel.webp',
-  './assets/examples/ecommerce.webp', './assets/examples/restaurant.webp', './assets/examples/portfolio.webp',
-  './assets/examples/gaming.webp', './assets/examples/automotive.webp'
+  './assets/universo-404.webp', './assets/preview.jpg'
 ];
 
 self.addEventListener('install', event => {
