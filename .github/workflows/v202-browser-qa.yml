@@ -3,6 +3,8 @@ name: Motion 404 v2.0.2 Browser QA
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -11,7 +13,7 @@ permissions:
 jobs:
   browser-qa:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,16 +31,21 @@ jobs:
           node --check motion-v2.0.2.js
           node --check sw.js
 
-      - name: Start local GitHub Pages equivalent
+      - name: Build GitHub Pages subpath fixture
         run: |
-          python -m http.server 8000 --bind 127.0.0.1 > /tmp/motion-http.log 2>&1 &
+          mkdir -p /tmp/pages/Motion-404
+          rsync -a --exclude=.git ./ /tmp/pages/Motion-404/
+          python -m http.server 8000 --bind 127.0.0.1 --directory /tmp/pages > /tmp/motion-http.log 2>&1 &
           echo $! > /tmp/motion-http.pid
           sleep 1
-          curl --fail --silent http://127.0.0.1:8000/ > /dev/null
-          curl --fail --silent http://127.0.0.1:8000/motion-v2.0.2.js > /dev/null
+          curl --fail --silent http://127.0.0.1:8000/Motion-404/ > /dev/null
+          curl --fail --silent http://127.0.0.1:8000/Motion-404/motion-v2.0.2.js > /dev/null
+          curl --fail --silent http://127.0.0.1:8000/Motion-404/sw.js > /dev/null
 
       - name: Click every critical control in Chrome
-        run: python tests/browser_v202.py
+        env:
+          MOTION_LOCAL_URL: http://127.0.0.1:8000/Motion-404/
+        run: python tests/browser_v202_ci.py
 
       - name: Server log on failure
         if: failure()
