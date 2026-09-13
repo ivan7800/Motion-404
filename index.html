@@ -3,243 +3,191 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" id="themeColorMeta" content="#07090d">
-  <meta name="description" content="Motion 404: biblioteca y generador local de prompts profesionales para crear webs y apps animadas con IA.">
+  <meta name="theme-color" content="#080a0f">
+  <meta name="description" content="Motion 404 v2.0.1 — Motion Design System local para definir Motion DNA, especificaciones, timelines y QA de rendimiento/accesibilidad.">
+  <meta name="color-scheme" content="dark light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; style-src-attr 'unsafe-inline'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>Motion 404 v2.0.1 — Motion Design System</title>
   <link rel="canonical" href="https://ivan7800.github.io/Motion-404/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
   <meta property="og:site_name" content="Motion 404">
-  <meta property="og:title" content="Motion 404 — Prompt Studio">
-  <meta property="og:description" content="Biblioteca y generador local de prompts profesionales para crear webs y aplicaciones animadas con IA.">
+  <meta property="og:title" content="Motion 404 v2.0.1 — Motion Design System">
+  <meta property="og:description" content="Diseña Motion DNA, especificaciones, timelines y QA predictivo de rendimiento y accesibilidad, 100% local.">
   <meta property="og:url" content="https://ivan7800.github.io/Motion-404/">
   <meta property="og:image" content="https://ivan7800.github.io/Motion-404/assets/preview.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="833">
-  <meta property="og:image:alt" content="Vista del catálogo y generador de Motion 404">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Motion 404 — Prompt Studio">
-  <meta name="twitter:description" content="Explora, adapta, genera y exporta prompts profesionales para experiencias web animadas.">
+  <meta name="twitter:title" content="Motion 404 v2.0.1 — Motion Design System">
+  <meta name="twitter:description" content="Del prompt al sistema de movimiento: Motion DNA, Spec, Timeline y QA.">
   <meta name="twitter:image" content="https://ivan7800.github.io/Motion-404/assets/preview.jpg">
-  <meta name="color-scheme" content="dark light">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
-  <title>Motion 404 — Prompt Studio</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icons/icon-192.png" sizes="192x192">
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="motion-v2.css">
 </head>
 <body>
-  <noscript><div class="noscript-warning" role="alert">Motion 404 necesita JavaScript para mostrar el catálogo, los filtros y el generador. Actívalo o abre la aplicación en otro navegador.</div></noscript>
-  <a class="skip-link" href="#catalogo">Saltar al catálogo</a>
+  <a class="skip-link" href="#studio">Saltar al estudio</a>
   <div class="ambient ambient-a" aria-hidden="true"></div>
   <div class="ambient ambient-b" aria-hidden="true"></div>
-  <div class="noise" aria-hidden="true"></div>
 
   <header class="site-header" id="inicio">
-    <a class="brand" href="#inicio" aria-label="Motion 404, inicio">
-      <img class="brand-logo" src="assets/universo-404.webp" width="46" height="46" alt="">
-      <span><strong>Motion</strong><small>Prompt Studio</small></span>
+    <a class="brand" href="#inicio" aria-label="Motion 404 v2, inicio">
+      <img src="assets/universo-404.webp" width="44" height="44" alt="">
+      <span><strong>Motion 404</strong><small>Motion Design System · v2.0.1</small></span>
     </a>
-    <nav class="desktop-nav" aria-label="Navegación principal">
-      <a href="#catalogo">Biblioteca</a>
-      <a href="#generador">Generador</a>
-      <a href="#como-funciona">Cómo funciona</a>
+    <nav aria-label="Navegación principal">
+      <a href="#biblioteca">Biblioteca</a>
+      <a href="#studio">Motion Studio</a>
+      <a href="#guardados">Sistemas</a>
+      <a href="#metodo">Método</a>
     </nav>
     <div class="header-actions">
-      <button class="icon-button" id="themeButton" type="button" aria-label="Cambiar tema" title="Cambiar tema">
-        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z"/></svg>
-      </button>
-      <span class="network-status" id="networkStatus" role="status" aria-live="polite" hidden></span>
-      <button class="button button-secondary install-button" id="installButton" type="button" aria-label="Instalar Motion 404 como aplicación" hidden>Instalar</button>
-      <a class="button button-primary" href="#generador">Crear prompt</a>
+      <button class="icon-button" id="themeButton" type="button" aria-label="Cambiar tema" title="Cambiar tema">◐</button>
+      <a class="button button-secondary" href="https://github.com/ivan7800/Motion-404" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a class="button button-primary" href="#studio">Crear sistema</a>
     </div>
   </header>
 
   <main>
-    <section class="hero section-shell" aria-labelledby="hero-title">
-      <div class="hero-copy reveal">
-        <p class="eyebrow"><span></span> Biblioteca original · local · sin cuentas</p>
-        <h1 id="hero-title">Diseña sitios que <em>se mueven</em> antes de escribir código.</h1>
-        <p class="hero-lead">Explora prompts completos para landing pages, apps, portfolios y experiencias 3D. Adáptalos a tu marca, cópialos y crea con tu asistente de IA favorito.</p>
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> Universo 404 · local-first · sin cuentas</p>
+        <h1 id="hero-title">Del prompt al <em>sistema de movimiento.</em></h1>
+        <p class="hero-lead">Convierte una idea web en un lenguaje de movimiento coherente: <strong>Motion DNA</strong>, especificación técnica, timeline de interacción y QA predictivo de rendimiento y accesibilidad.</p>
         <div class="hero-actions">
-          <a class="button button-primary button-large" href="#catalogo">Explorar biblioteca</a>
-          <a class="button button-ghost button-large" href="#generador">Generar desde cero</a>
+          <a class="button button-primary button-large" href="#studio">Diseñar Motion DNA</a>
+          <a class="button button-ghost button-large" href="#biblioteca">Explorar 180 presets</a>
         </div>
-        <dl class="hero-stats" aria-label="Estadísticas de la biblioteca">
-          <div><dt id="promptCount">180</dt><dd>prompts</dd></div>
-          <div><dt id="sectorCount">17</dt><dd>sectores</dd></div>
+        <dl class="stats" aria-label="Capacidades de Motion 404">
+          <div><dt>180</dt><dd>presets</dd></div>
+          <div><dt>6</dt><dd>DNA base</dd></div>
+          <div><dt>4</dt><dd>entregables</dd></div>
           <div><dt>100%</dt><dd>local</dd></div>
         </dl>
       </div>
-
-      <div class="hero-stage reveal" aria-hidden="true">
-        <div class="orbit orbit-one"></div>
-        <div class="orbit orbit-two"></div>
-        <img class="hero-universe-logo" src="assets/universo-404.webp" width="164" height="164" alt="" loading="eager">
-        <div class="stage-window">
-          <div class="window-bar"><span></span><span></span><span></span><small>motion-404.local</small></div>
-          <div class="window-canvas">
-            <div class="canvas-nav"><b>M/404</b><i></i><i></i><i></i></div>
-            <div class="canvas-copy">
-              <small>IMMERSIVE DIGITAL STUDIO</small>
-              <strong>Ideas in<br><em>motion.</em></strong>
-              <span>↓ SCROLL TO EXPLORE</span>
-            </div>
-            <div class="kinetic-shape" aria-hidden="true"><span></span><span></span><span></span></div>
-          </div>
-        </div>
-        <div class="floating-chip chip-one">GSAP motion</div>
-        <div class="floating-chip chip-two">Responsive</div>
-        <div class="floating-chip chip-three">Teclado + foco</div>
+      <div class="dna-orbit" aria-hidden="true">
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
+        <img src="assets/universo-404.webp" width="150" height="150" alt="">
+        <span class="orbit-label label-a">DNA</span><span class="orbit-label label-b">SPEC</span><span class="orbit-label label-c">QA</span>
       </div>
     </section>
 
-    <section class="ticker" aria-label="Tecnologías compatibles">
-      <div class="ticker-track" aria-hidden="true">
-        <span>HTML · CSS · JS</span><b>✦</b><span>React</span><b>✦</b><span>Tailwind</span><b>✦</b><span>Framer Motion</span><b>✦</b><span>GSAP</span><b>✦</b><span>Three.js</span><b>✦</b><span>GitHub Pages</span><b>✦</b>
-        <span>HTML · CSS · JS</span><b>✦</b><span>React</span><b>✦</b><span>Tailwind</span><b>✦</b><span>Framer Motion</span><b>✦</b><span>GSAP</span><b>✦</b><span>Three.js</span><b>✦</b><span>GitHub Pages</span><b>✦</b>
-      </div>
+    <section class="feature-strip" aria-label="Flujo Motion 404">
+      <span>01 · DEFINE</span><b>→</b><span>02 · SYSTEMIZE</span><b>→</b><span>03 · SEQUENCE</span><b>→</b><span>04 · VERIFY</span>
     </section>
 
-    <section class="catalog section-shell" id="catalogo" aria-labelledby="catalog-title">
-      <div class="section-heading reveal">
-        <div><p class="eyebrow"><span></span> Biblioteca</p><h2 id="catalog-title">Encuentra tu punto de partida</h2></div>
-        <p>Prompts estructurados con arquitectura, diseño, movimiento, responsive, accesibilidad y criterios de entrega.</p>
+    <section class="shell section" id="biblioteca" aria-labelledby="library-title">
+      <div class="section-heading">
+        <div><p class="eyebrow"><span></span> Preset Library</p><h2 id="library-title">180 puntos de partida, ahora con Motion DNA</h2></div>
+        <p>Cada preset combina sector, stack, dirección visual, patrón de movimiento, intensidad y profundidad. Úsalo como semilla y modifícalo en el estudio.</p>
       </div>
-
-      <div class="catalog-toolbar reveal" role="search">
-        <label class="search-field">
-          <span class="sr-only">Buscar prompts</span>
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
-          <input id="searchInput" type="search" placeholder="Buscar estilo, sector o tecnología…" autocomplete="off" aria-keyshortcuts="/">
-          <kbd>/</kbd>
-        </label>
-        <div class="toolbar-buttons">
-          <button class="button button-secondary" id="favoritesToggle" type="button" aria-pressed="false">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 20.7-1.45-1.32C5.4 14.7 2 11.62 2 7.85 2 4.77 4.42 2.35 7.5 2.35c1.74 0 3.41.81 4.5 2.09a6.02 6.02 0 0 1 4.5-2.09c3.08 0 5.5 2.42 5.5 5.5 0 3.77-3.4 6.85-8.55 11.54L12 20.7Z"/></svg>
-            Favoritos <span id="favoriteCount">0</span>
-          </button>
-          <button class="button button-secondary" id="randomButton" type="button">Sorpréndeme</button>
-        </div>
+      <div class="library-toolbar" role="search">
+        <label class="search-field"><span class="sr-only">Buscar presets</span><input id="presetSearch" type="search" placeholder="Buscar sector, estilo, stack…" autocomplete="off"><kbd>/</kbd></label>
+        <label>Categoría<select id="categoryFilter"><option value="all">Todas</option></select></label>
+        <label>DNA<select id="dnaFilter"><option value="all">Todos</option></select></label>
+        <button class="button button-secondary" id="randomPreset" type="button">Sorpréndeme</button>
       </div>
-
-      <div class="filter-row reveal" id="categoryFilters" role="group" aria-label="Filtrar por categoría"></div>
-      <div class="advanced-filters reveal">
-        <label>Stack<select id="stackFilter"><option value="all">Todos</option></select></label>
-        <label>Complejidad<select id="levelFilter"><option value="all">Todas</option><option value="Esencial">Esencial</option><option value="Avanzado">Avanzado</option><option value="Experimental">Experimental</option></select></label>
-        <label>Orden<select id="sortFilter"><option value="featured">Destacados</option><option value="az">A–Z</option><option value="newest">Más recientes</option></select></label>
-        <button class="text-button" id="clearFilters" type="button">Limpiar filtros</button>
-      </div>
-
-      <div class="results-line" aria-live="polite"><span id="resultsCount">0 resultados</span><span id="activeFilterText"></span></div>
-      <div class="prompt-grid" id="promptGrid"></div>
-      <div class="empty-state" id="emptyState" hidden>
-        <div>404</div><h3>No encontramos ese prompt</h3><p>Prueba con menos filtros o crea uno personalizado.</p><button class="button button-primary" id="emptyReset" type="button">Restablecer</button>
-      </div>
-      <div class="load-more-wrap"><button class="button button-secondary button-large" id="loadMoreButton" type="button">Mostrar más</button></div>
+      <div class="results-line"><span id="presetCount">180 presets</span><button class="text-button" id="clearPresetFilters" type="button">Limpiar filtros</button></div>
+      <div class="preset-grid" id="presetGrid"></div>
+      <div class="empty-state" id="presetEmpty" hidden><strong>404</strong><h3>Sin coincidencias</h3><p>Prueba con menos filtros.</p></div>
+      <div class="center"><button class="button button-secondary button-large" id="loadMorePresets" type="button">Mostrar más</button></div>
     </section>
 
-    <section class="generator section-shell" id="generador" aria-labelledby="generator-title">
-      <div class="generator-shell reveal">
-        <div class="generator-intro">
-          <p class="eyebrow"><span></span> Prompt Lab</p>
-          <h2 id="generator-title">Construye un prompt a tu medida</h2>
-          <p>Combina objetivo, sector, lenguaje visual, movimiento y tecnología. El resultado queda listo para pegar en ChatGPT, Claude, Gemini, Lovable, Bolt o Cursor.</p>
-          <ul>
-            <li><span>01</span> Brief y criterios claros</li>
-            <li><span>02</span> UX, accesibilidad y seguridad</li>
-            <li><span>03</span> Pruebas y entrega verificable</li>
-          </ul>
-        </div>
-        <form class="generator-form" id="generatorForm">
+    <section class="shell section" id="studio" aria-labelledby="studio-title">
+      <div class="section-heading">
+        <div><p class="eyebrow"><span></span> Motion Studio</p><h2 id="studio-title">Construye un sistema, no una colección de efectos</h2></div>
+        <p>Define intención, intensidad, ritmo y profundidad. Motion 404 traduce esas decisiones a reglas verificables para diseño y frontend.</p>
+      </div>
+
+      <div class="studio-layout">
+        <form class="control-panel" id="systemForm">
+          <div class="panel-title"><div><small>INPUT</small><h3>Dirección del proyecto</h3></div><span class="status-dot">LOCAL</span></div>
           <div class="form-grid">
-            <label>Nombre del proyecto<input name="project" maxlength="60" placeholder="Ej. Atlas Arquitectura" required></label>
-            <label>Tipo de experiencia<select name="type"><option>Landing page</option><option>Aplicación web</option><option>Portfolio</option><option>E-commerce</option><option>Dashboard</option><option>Editorial</option></select></label>
+            <label class="span-2">Nombre del proyecto<input name="project" id="projectInput" maxlength="70" placeholder="Ej. Atlas Architecture" required></label>
+            <label>Experiencia<select name="experience" id="experienceSelect"></select></label>
             <label>Sector<select name="industry" id="industrySelect"></select></label>
-            <label>Stack<select name="stack" id="generatorStack"></select></label>
-            <label>Dirección visual<select name="style" id="styleSelect"></select></label>
-            <label>Movimiento<select name="motion" id="motionSelect"></select></label>
+            <label>Stack<select name="stack" id="stackSelect"></select></label>
+            <label>Dirección visual<select name="visual" id="visualSelect"></select></label>
+            <label>Motion DNA<select name="dna" id="dnaSelect"></select></label>
+            <label>Ritmo<select name="pace" id="paceSelect"><option value="calm">Calmado</option><option value="balanced" selected>Equilibrado</option><option value="fast">Rápido</option></select></label>
+            <label>Profundidad<select name="depth" id="depthSelect"><option value="flat">Plana · 2D</option><option value="layered" selected>Capas</option><option value="spatial">Espacial · 3D</option></select></label>
+            <label class="span-2 range-label">Intensidad <output id="intensityOutput" for="intensityRange">3 / 5</output><input type="range" name="intensity" id="intensityRange" min="1" max="5" step="1" value="3"></label>
           </div>
           <fieldset>
-            <legend>Funciones necesarias</legend>
+            <legend>Capacidades</legend>
             <div class="check-grid">
-              <label><input type="checkbox" name="features" value="buscador y filtros" checked><span>Buscador y filtros</span></label>
-              <label><input type="checkbox" name="features" value="modo oscuro y claro"><span>Temas</span></label>
-              <label><input type="checkbox" name="features" value="persistencia local"><span>Datos locales</span></label>
-              <label><input type="checkbox" name="features" value="instalación PWA" checked><span>PWA</span></label>
-              <label><input type="checkbox" name="features" value="microinteracciones y feedback"><span>Microinteracciones</span></label>
-              <label><input type="checkbox" name="features" value="importación y exportación JSON"><span>Importar/exportar</span></label>
+              <label><input type="checkbox" name="features" value="page-transitions" checked><span>Page transitions</span></label>
+              <label><input type="checkbox" name="features" value="scroll-story" checked><span>Scroll story</span></label>
+              <label><input type="checkbox" name="features" value="microinteractions" checked><span>Microinteracciones</span></label>
+              <label><input type="checkbox" name="features" value="kinetic-type"><span>Tipografía cinética</span></label>
+              <label><input type="checkbox" name="features" value="cursor-effects"><span>Cursor effects</span></label>
+              <label><input type="checkbox" name="features" value="3d-reactive"><span>3D reactivo</span></label>
             </div>
           </fieldset>
-          <label>Contexto adicional<textarea name="context" rows="4" maxlength="500" placeholder="Público, tono, colores, restricciones, contenido imprescindible…"></textarea></label>
+          <label>Contexto adicional<textarea name="context" rows="4" maxlength="600" placeholder="Público, tono, restricciones, objetivo de negocio, dispositivos prioritarios…"></textarea></label>
           <div class="form-actions">
-            <button class="button button-primary button-large" type="submit">Generar prompt</button>
-            <button class="button button-ghost button-large" id="resetGenerator" type="reset">Limpiar</button>
+            <button class="button button-primary button-large" type="submit">Generar Motion System</button>
+            <button class="button button-secondary" id="inspectButton" type="button">Inspeccionar riesgo</button>
+            <button class="button button-ghost" type="reset">Restablecer</button>
           </div>
         </form>
+
+        <aside class="inspector" aria-labelledby="inspector-title">
+          <div class="panel-title"><div><small>LIVE</small><h3 id="inspector-title">Motion Inspector</h3></div><span id="riskBadge" class="risk-badge risk-low">BAJO</span></div>
+          <div class="score-ring" id="riskRing" role="meter" aria-label="Riesgo de movimiento" aria-valuemin="0" aria-valuemax="100" aria-valuenow="18"><strong id="riskScore">18</strong><span>riesgo / 100</span></div>
+          <p id="riskSummary">Configuración equilibrada. El movimiento acompaña la jerarquía sin dominarla.</p>
+          <div class="inspector-bars">
+            <div><span>GPU / CPU</span><progress id="perfRisk" max="100" value="18"></progress></div>
+            <div><span>Carga cognitiva</span><progress id="cognitiveRisk" max="100" value="20"></progress></div>
+            <div><span>Accesibilidad</span><progress id="a11yRisk" max="100" value="10"></progress></div>
+          </div>
+          <div class="recommendations" id="liveRecommendations" aria-live="polite"></div>
+        </aside>
       </div>
 
-      <div class="generated-panel" id="generatedPanel" role="region" aria-labelledby="generatedTitle" hidden>
-        <div class="generated-header"><div><p class="eyebrow"><span></span> Resultado</p><h3 id="generatedTitle" tabindex="-1">Prompt generado</h3></div><div><button class="button button-secondary" id="saveGenerated" type="button">Guardar</button><button class="button button-primary" id="copyGenerated" type="button">Copiar</button></div></div>
-        <pre id="generatedPrompt" tabindex="0"></pre>
-        <div class="generated-footer"><span id="generatedMeta"></span><button class="text-button" id="downloadGenerated" type="button">Descargar .md</button></div>
-      </div>
+      <section class="output-panel" id="outputPanel" aria-labelledby="output-title" hidden>
+        <div class="output-header">
+          <div><p class="eyebrow"><span></span> System Output</p><h3 id="output-title" tabindex="-1">Motion System</h3><p id="outputMeta"></p></div>
+          <div class="output-actions"><button class="button button-secondary" id="saveSystem" type="button">Guardar</button><button class="button button-secondary" id="copyOutput" type="button">Copiar</button><button class="button button-primary" id="downloadOutput" type="button">Descargar sistema</button></div>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Entregables">
+          <button type="button" role="tab" id="tab-dna" aria-selected="true" aria-controls="panel-dna" data-tab="dna">Motion DNA</button>
+          <button type="button" role="tab" id="tab-spec" aria-selected="false" aria-controls="panel-spec" data-tab="spec" tabindex="-1">Motion Spec</button>
+          <button type="button" role="tab" id="tab-timeline" aria-selected="false" aria-controls="panel-timeline" data-tab="timeline" tabindex="-1">Timeline</button>
+          <button type="button" role="tab" id="tab-qa" aria-selected="false" aria-controls="panel-qa" data-tab="qa" tabindex="-1">Performance / A11y QA</button>
+        </div>
+        <div class="tab-panel" id="panel-dna" role="tabpanel" aria-labelledby="tab-dna"></div>
+        <div class="tab-panel" id="panel-spec" role="tabpanel" aria-labelledby="tab-spec" hidden><pre id="specOutput" tabindex="0"></pre></div>
+        <div class="tab-panel" id="panel-timeline" role="tabpanel" aria-labelledby="tab-timeline" hidden><div class="timeline" id="timelineOutput"></div></div>
+        <div class="tab-panel" id="panel-qa" role="tabpanel" aria-labelledby="tab-qa" hidden><div class="qa-layout"><div class="qa-score" id="qaScore"></div><div class="qa-list" id="qaList"></div></div></div>
+      </section>
     </section>
 
-    <section class="workflow section-shell" id="como-funciona" aria-labelledby="workflow-title">
-      <div class="section-heading reveal"><div><p class="eyebrow"><span></span> Flujo</p><h2 id="workflow-title">De la idea a una web funcional</h2></div></div>
-      <div class="steps-grid">
-        <article class="reveal"><span>01</span><h3>Elige</h3><p>Filtra por objetivo, sector, stack y nivel de movimiento.</p></article>
-        <article class="reveal"><span>02</span><h3>Adapta</h3><p>Completa nombre, identidad, contenido y restricciones reales.</p></article>
-        <article class="reveal"><span>03</span><h3>Genera</h3><p>Pega el prompt en tu editor de IA y conserva la estructura solicitada.</p></article>
-        <article class="reveal"><span>04</span><h3>Verifica</h3><p>Ejecuta build, pruebas, accesibilidad y validación en el destino.</p></article>
+    <section class="shell section" id="guardados" aria-labelledby="saved-title">
+      <div class="section-heading">
+        <div><p class="eyebrow"><span></span> Local Systems</p><h2 id="saved-title">Tus sistemas guardados</h2></div>
+        <p>Se almacenan únicamente en este navegador. Puedes exportarlos o importarlos como JSON.</p>
       </div>
+      <div class="saved-toolbar"><button class="button button-secondary" id="exportSystems" type="button">Exportar JSON</button><label class="button button-secondary file-button">Importar JSON<input id="importSystems" type="file" accept="application/json,.json"></label><button class="button button-ghost" id="clearSystems" type="button">Borrar guardados</button></div>
+      <div class="saved-grid" id="savedGrid"></div>
+      <div class="empty-saved" id="savedEmpty">Todavía no has guardado ningún Motion System.</div>
     </section>
 
-    <section class="local-first section-shell reveal">
-      <div><p class="eyebrow"><span></span> Local first</p><h2>Tus prompts permanecen en tu navegador.</h2><p>Favoritos y creaciones se guardan en almacenamiento local. No hay cuentas, analítica, telemetría ni envío de contenido a servidores.</p></div>
-      <div class="privacy-visual" aria-hidden="true"><span>LOCAL</span><div><i></i><i></i><i></i></div><strong>404</strong></div>
+    <section class="shell section" id="metodo" aria-labelledby="method-title">
+      <div class="section-heading"><div><p class="eyebrow"><span></span> Design Contract</p><h2 id="method-title">Cuatro capas para evitar “animar por animar”</h2></div></div>
+      <div class="method-grid">
+        <article><span>01</span><h3>Motion DNA</h3><p>Define personalidad, ritmo, intensidad, profundidad, easing y límites del sistema.</p></article>
+        <article><span>02</span><h3>Motion Spec</h3><p>Convierte intención creativa en tokens, reglas por componente y contrato técnico.</p></article>
+        <article><span>03</span><h3>Timeline</h3><p>Ordena entradas, scroll, feedback y transiciones para que la narrativa tenga ritmo.</p></article>
+        <article><span>04</span><h3>QA</h3><p>Detecta sobreanimación, coste de GPU/CPU, riesgo cognitivo y requisitos de reduced motion.</p></article>
+      </div>
     </section>
   </main>
 
-  <footer class="site-footer section-shell">
-    <div class="footer-brand"><a class="brand" href="#inicio"><img class="brand-logo" src="assets/universo-404.webp" width="46" height="46" alt=""><span><strong>Motion</strong><small>Prompt Studio</small></span></a><p>Una herramienta original del ecosistema Universo 404.</p></div>
-    <div><strong>Producto</strong><a href="#catalogo">Biblioteca</a><a href="#generador">Generador</a><button id="exportDataButton" type="button">Exportar datos</button><button id="importDataButton" type="button">Importar datos</button><button id="clearDataButton" type="button">Borrar datos locales</button><input id="importFileInput" type="file" accept="application/json" hidden></div>
-    <div><strong>Información</strong><button id="aboutButton" type="button">Acerca de</button><button id="privacyButton" type="button">Privacidad</button><button id="portableDocsButton" type="button">Documentación</button></div>
-    <p class="footer-bottom">© <span id="year"></span> I. Roig · Motion 404 <span>v<span id="appVersion">1.3.1</span> · Diseñado para crear, no para rastrear.</span></p>
-  </footer>
-
-  <dialog class="prompt-dialog" id="promptDialog" aria-labelledby="dialogTitle" aria-describedby="dialogDescription">
-    <div class="dialog-shell">
-      <button class="dialog-close icon-button" type="button" data-close-dialog aria-label="Cerrar diálogo"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-      <div class="dialog-preview" id="dialogPreview"></div>
-      <div class="dialog-content">
-        <div class="dialog-badges" id="dialogBadges"></div>
-        <h2 id="dialogTitle">Título</h2>
-        <p id="dialogDescription"></p>
-        <div class="dialog-tabs" role="tablist" aria-label="Contenido del prompt">
-          <button role="tab" aria-selected="true" aria-controls="tabPrompt" id="promptTab" type="button">Prompt</button>
-          <button role="tab" aria-selected="false" aria-controls="tabChecklist" id="checklistTab" type="button" tabindex="-1">Checklist</button>
-        </div>
-        <div class="tab-panel" id="tabPrompt" role="tabpanel" aria-labelledby="promptTab"><pre id="dialogPrompt" tabindex="0"></pre></div>
-        <div class="tab-panel" id="tabChecklist" role="tabpanel" aria-labelledby="checklistTab" hidden><ul id="dialogChecklist"></ul></div>
-        <div class="dialog-actions"><button class="button button-secondary" id="dialogFavorite" type="button">Guardar favorito</button><button class="button button-primary" id="dialogCopy" type="button">Copiar prompt</button></div>
-      </div>
-    </div>
-  </dialog>
-
-  <dialog class="info-dialog" id="infoDialog" aria-labelledby="infoDialogTitle">
-    <div class="info-shell">
-      <button class="dialog-close icon-button" type="button" data-close-dialog aria-label="Cerrar"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-      <div id="infoDialogContent">
-        <p class="eyebrow"><span></span><span id="infoDialogEyebrow">Información</span></p>
-        <h2 id="infoDialogTitle">Motion 404</h2>
-        <div id="infoDialogBody"></div>
-      </div>
-    </div>
-  </dialog>
-
-  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
-  <script defer src="app.js"></script>
+  <footer><div><strong>Motion 404 v2.0.1</strong><span>Motion Design System · Universo 404</span></div><div><span>Sin cuentas</span><span>Sin telemetría</span><span>Datos locales</span></div></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  <script src="motion-v2.0.1-preflight.js" defer></script>
+  <script src="motion-v2.js" defer></script>
+  <script src="motion-v2.0.1-patch.js" defer></script>
 </body>
 </html>
