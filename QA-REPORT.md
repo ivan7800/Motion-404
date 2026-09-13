@@ -1,71 +1,124 @@
-# Motion 404 v2.0.1 — QA Report
+# Motion 404 v2.0.2 — QA Report
 
 Fecha: 2026-09-13
 
-Estado: **RELEASE OFICIAL**
+Estado: **RELEASE CANDIDATE — CORRECCIÓN DE ARRANQUE Y BOTONES VALIDADA**
 
-## Resultado
+## Causa raíz confirmada en producción
 
-Motion 404 v2.0.1 supera el QA automatizado disponible para estructura, lógica de generación, PWA, accesibilidad defensiva e importación/exportación.
+La versión 2.0.1 publicada mostraba correctamente HTML/CSS, pero el runtime no llegaba a inicializarse. Un navegador Chrome real contra `https://ivan7800.github.io/Motion-404/` registró exactamente:
 
-### QA estructural: 24/24 PASS
+```text
+motion-v2.js 78:7 Uncaught SyntaxError: Unexpected end of input
+motion-v2.0.1-patch.js 21:10 Uncaught ReferenceError: validSaved is not defined
+```
 
-- IDs HTML únicos.
-- Todos los botones declaran `type`.
-- CSP presente y scripts sin `unsafe-inline`.
-- Manifest enlazado.
-- Anclas internas válidas.
-- `aria-controls` de tabs válidos.
-- Selectores JS por ID presentes en DOM.
-- Recursos locales referenciados presentes.
-- Manifest compatible con subruta de GitHub Pages.
-- Service Worker con cache `motion-404-v2.0.1`.
-- `APP_SHELL` apunta a `index.html`.
-- Recursos CORE del Service Worker presentes.
-- Navegaciones usan estrategia network-first con fallback offline.
-- `prefers-reduced-motion` definido en CSS.
-- Breakpoints 1050 / 700 / 430 px presentes.
+Consecuencia observable:
 
-### QA de lógica: PASS
+- `window.__MOTION404_READY__` no existía / era falso.
+- 0 tarjetas `.preset-card` renderizadas.
+- `init()` no completaba.
+- Los listeners de botones/filtros no llegaban a enlazarse.
+- El parche 2.0.1 dependía de símbolos del runtime anterior y fallaba en cascada.
 
-- 180 presets exactos.
-- IDs de preset únicos.
-- 6 perfiles Motion DNA.
-- El riesgo aumenta de forma coherente: escenario mínimo 6/100 → escenario extremo 83/100.
-- Todos los valores de riesgo permanecen entre 0 y 100.
-- Timeline crece según capacidades activadas y mantiene orden temporal.
-- QA predictivo penaliza configuraciones de mayor riesgo: 100/100 → 55/100 en el escenario extremo probado.
-- Motion System generado contiene la versión 2.0.1.
-- Validación de sistemas guardados correcta.
-- Timeline corrupto rechazado.
-- Features desconocidas rechazadas.
-- Motion Spec incluye `prefers-reduced-motion`, Performance Budget y Definition of Done.
-- Orden de ritmos validado: fast < balanced < calm.
+Esto explica exactamente el síntoma: shell visual disponible, catálogo vacío y botones inertes.
 
-## Hardening v2.0.1
+## Corrección v2.0.2
 
-- Preflight de `localStorage` antes de arrancar el motor principal.
-- Validación estricta de backups JSON antes de importarlos.
-- Eliminación automática de sistemas persistidos estructuralmente inválidos.
-- Motion System cargado vuelve a sincronizar el formulario.
-- Exportación JSON marcada como versión 2.0.1.
-- Registro del Service Worker restaurado para la nueva release oficial.
-- Manifest PWA actualizado a Motion Design System.
+- Eliminada del `index.html` la cadena frágil `preflight → motion-v2.js → patch`.
+- Nuevo runtime único: `motion-v2.0.2.js`.
+- Inicialización atómica con comprobación previa de todos los IDs DOM requeridos.
+- Diagnóstico `window.__MOTION404_QA__` y `window.__MOTION404_READY__` sólo después de completar render y listeners.
+- Normalización defensiva de `localStorage` e imports JSON.
+- Mensaje visible de error de arranque si el runtime no puede inicializar.
+- Service Worker actualizado a caché `motion-404-v2.0.2`.
+- Eliminados del precache los runtimes rotos 2.0.1.
+- Navegación sigue usando `network-first`; la shell y estáticos disponen de fallback offline.
 
-## Limitación del entorno de QA
+## Browser QA real
 
-Se intentó ejecutar una prueba de interacción en Chromium headless mediante DevTools Protocol. El navegador del entorno bloquea tanto `localhost` como `file://` por política organizativa (`Your organization doesn't allow you to view this site`), por lo que esa prueba física no puede considerarse ejecutada aquí.
+GitHub Actions ejecutó Chrome/Selenium contra la aplicación servida bajo:
 
-Esta limitación pertenece al navegador de pruebas del entorno, no a Motion 404. No se inventan resultados de clics ni consola que no se hayan podido ejecutar.
+```text
+http://127.0.0.1:8000/Motion-404/
+```
 
-## Rollback
+Esto reproduce la subruta usada por GitHub Pages.
 
-Punto de rollback anterior a la promoción oficial:
+### Resultado: 90 comprobaciones PASS
 
-`c82ec8b5ec970bbe72f640f9ab7f04ad8d5ba08b`
+Comprobaciones funcionales ejecutadas individualmente:
+
+- runtime 2.0.2 listo;
+- listeners enlazados;
+- 180 presets generados;
+- 18 tarjetas iniciales;
+- Mostrar más → 36 tarjetas;
+- búsqueda;
+- limpiar filtros;
+- filtro categoría Gaming → 12 presets;
+- filtro DNA Cinematic → 30 presets;
+- Sorpréndeme;
+- Usar preset;
+- DNA preview;
+- Motion Inspector reactivo;
+- Inspeccionar riesgo;
+- Generar Motion System;
+- Motion Spec identifica v2.0.2;
+- tabs Motion DNA / Motion Spec / Timeline / QA;
+- copiar;
+- descargar;
+- guardar;
+- abrir guardado y resincronizar formulario;
+- exportar JSON;
+- eliminar guardado;
+- importar JSON mediante `input[type=file]` real;
+- borrar todos los guardados con confirmación;
+- cambiar tema;
+- restablecer formulario;
+- atajo `/` para búsqueda.
+
+### Capas, pointer-events y z-index
+
+Se hizo hit-test mediante `document.elementFromPoint()` sobre los controles críticos después de posicionarlos en el viewport.
+
+Resultado:
+
+- `pointer-events: auto` en todos los controles comprobados.
+- el elemento superior en el punto central es el propio botón o un descendiente suyo;
+- ninguna capa invisible intercepta los controles;
+- no se detectó un problema de z-index como causa de los botones inertes.
+
+Controles verificados: `Sorpréndeme`, `Limpiar filtros`, `Mostrar más`, `Inspeccionar`, `Generar`, `Guardar`, `Copiar`, `Descargar`, `Exportar`, `Borrar guardados` y `Tema`, además de los botones dinámicos de preset y sistema guardado.
+
+### Consola
+
+- Errores de página en la rama corregida: **0**.
+- Errores `console.error` / SEVERE: **0**.
+
+### Service Worker / caché / offline
+
+- Service Worker registrado correctamente.
+- Caché activa comprobada: `motion-404-v2.0.2`.
+- Después de recargar, `navigator.serviceWorker.controller === true`.
+- Recarga con red emulada como offline: **PASS**.
+- Tras la recarga offline vuelven a renderizarse 18 tarjetas iniciales.
+
+## Rutas / GitHub Pages
+
+Todos los recursos principales devolvieron HTTP 200 dentro de `/Motion-404/`:
+
+- `index.html`
+- `motion-v2.css`
+- `motion-v2.0.2.js`
+- `manifest.webmanifest`
+- `sw.js`
+- iconos PWA
+- `assets/universo-404.webp`
+- `assets/preview.jpg`
 
 ## Veredicto
 
-**FINALIZADO CON LIMITACIÓN DE VALIDACIÓN FÍSICA DEL NAVEGADOR DEL ENTORNO.**
+**CORRECCIÓN FUNCIONAL VALIDADA.**
 
-La estructura, sintaxis, lógica, PWA y hardening han sido verificados. Se recomienda una última comprobación visual manual en la URL pública en escritorio y móvil tras la propagación de GitHub Pages.
+La causa raíz está demostrada con errores de consola capturados en la versión pública anterior y la v2.0.2 pasa 90 comprobaciones de navegador, incluyendo acciones individuales, hit-testing de capas, consola, subruta GitHub Pages, importación real y offline.

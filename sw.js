@@ -1,9 +1,8 @@
 const CACHE_PREFIX = 'motion-404-';
-const CACHE = `${CACHE_PREFIX}v2.0.1`;
+const CACHE = `${CACHE_PREFIX}v2.0.2`;
 const APP_SHELL = './index.html';
 const CORE = [
-  './', APP_SHELL, './v2.html', './motion-v2.css', './motion-v2.js',
-  './motion-v2.0.1-preflight.js', './motion-v2.0.1-patch.js', './manifest.webmanifest',
+  './', APP_SHELL, './motion-v2.css', './motion-v2.0.2.js', './manifest.webmanifest',
   './assets/icons/icon-192.png', './assets/icons/icon-512.png', './assets/icons/icon-maskable-512.png',
   './assets/universo-404.webp', './assets/preview.jpg'
 ];
@@ -27,7 +26,7 @@ function canCache(response) {
 async function networkFirst(request) {
   const cache = await caches.open(CACHE);
   try {
-    const response = await fetch(request);
+    const response = await fetch(request, {cache: 'no-cache'});
     if (canCache(response)) await cache.put(request, response.clone());
     return response;
   } catch {

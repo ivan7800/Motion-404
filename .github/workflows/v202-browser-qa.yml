@@ -1,0 +1,52 @@
+name: Motion 404 v2.0.2 Browser QA
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Selenium
+        run: python -m pip install --disable-pip-version-check selenium==4.25.0
+
+      - name: JavaScript syntax
+        run: |
+          node --check motion-v2.0.2.js
+          node --check sw.js
+
+      - name: Build GitHub Pages subpath fixture
+        run: |
+          mkdir -p /tmp/pages/Motion-404
+          rsync -a --exclude=.git ./ /tmp/pages/Motion-404/
+          python -m http.server 8000 --bind 127.0.0.1 --directory /tmp/pages > /tmp/motion-http.log 2>&1 &
+          echo $! > /tmp/motion-http.pid
+          sleep 1
+          curl --fail --silent http://127.0.0.1:8000/Motion-404/ > /dev/null
+          curl --fail --silent http://127.0.0.1:8000/Motion-404/motion-v2.0.2.js > /dev/null
+          curl --fail --silent http://127.0.0.1:8000/Motion-404/sw.js > /dev/null
+
+      - name: Full Chrome controls, layers, import and offline QA
+        env:
+          MOTION_LOCAL_URL: http://127.0.0.1:8000/Motion-404/
+        run: python tests/browser_release_v202.py
+
+      - name: Server log on failure
+        if: failure()
+        run: cat /tmp/motion-http.log || true
