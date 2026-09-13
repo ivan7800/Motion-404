@@ -42,10 +42,10 @@ jobs:
           curl --fail --silent http://127.0.0.1:8000/Motion-404/motion-v2.0.2.js > /dev/null
           curl --fail --silent http://127.0.0.1:8000/Motion-404/sw.js > /dev/null
 
-      - name: Click every critical control in Chrome
+      - name: Click and hit-test every critical control in Chrome
         env:
           MOTION_LOCAL_URL: http://127.0.0.1:8000/Motion-404/
-        run: python tests/browser_v202_ci.py
+        run: python tests/browser_v202_final.py
 
       - name: Server log on failure
         if: failure()
