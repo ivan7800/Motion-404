@@ -1,72 +1,25 @@
 {
   "id": "./",
-  "name": "Motion 404 — Prompt Studio",
+  "name": "Motion 404 — Motion Design System",
   "short_name": "Motion 404",
-  "description": "Biblioteca y generador local de prompts profesionales para webs y aplicaciones animadas.",
+  "description": "Sistema local para definir Motion DNA, especificaciones, timelines y QA predictivo de rendimiento y accesibilidad.",
   "lang": "es",
   "dir": "ltr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#07090d",
-  "theme_color": "#07090d",
-  "categories": [
-    "productivity",
-    "developer",
-    "design"
-  ],
+  "background_color": "#080a0f",
+  "theme_color": "#080a0f",
+  "categories": ["productivity", "developer", "design"],
   "icons": [
-    {
-      "src": "assets/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "assets/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "assets/icons/icon-maskable-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "assets/preview.jpg",
-      "sizes": "1200x833",
-      "type": "image/jpeg",
-      "form_factor": "wide",
-      "label": "Catálogo de Motion 404"
-    }
+    {"src":"assets/icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"assets/icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"assets/icons/icon-maskable-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
   ],
   "shortcuts": [
-    {
-      "name": "Biblioteca",
-      "short_name": "Biblioteca",
-      "url": "./#catalogo",
-      "icons": [
-        {
-          "src": "assets/icons/icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "Crear prompt",
-      "short_name": "Crear",
-      "url": "./#generador",
-      "icons": [
-        {
-          "src": "assets/icons/icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
-    }
+    {"name":"Preset Library","short_name":"Presets","url":"./#biblioteca","icons":[{"src":"assets/icons/icon-192.png","sizes":"192x192"}]},
+    {"name":"Motion Studio","short_name":"Studio","url":"./#studio","icons":[{"src":"assets/icons/icon-192.png","sizes":"192x192"}]},
+    {"name":"Sistemas guardados","short_name":"Sistemas","url":"./#guardados","icons":[{"src":"assets/icons/icon-192.png","sizes":"192x192"}]}
   ]
 }
