@@ -1,5 +1,43 @@
 # Changelog
 
+## [2.0.1] — 2026-09-13
+
+### Release oficial — Motion Design System
+
+- Promovido Motion 404 v2 como `index.html` oficial de GitHub Pages.
+- Evolución de biblioteca de prompts a sistema de diseño de movimiento con **Motion DNA + Motion Spec + Timeline + Performance/Accessibility QA**.
+- 180 presets y 6 perfiles Motion DNA: Cinematic, Minimal, Kinetic, Editorial, Brutalist y Spatial.
+- Motion Inspector con estimación de riesgo GPU/CPU, carga cognitiva, accesibilidad y sobreanimación.
+- Generación de Motion Spec con tokens, contrato por componentes, presupuesto de rendimiento y Definition of Done.
+- Timeline adaptado a ritmo, intensidad, profundidad y capacidades activadas.
+- QA predictivo y recomendaciones de reduced motion, touch, 3D, tipografía cinética y cursor effects.
+
+### Hardening
+
+- Añadido preflight defensivo de `localStorage` antes de arrancar el motor.
+- Endurecida la validación de importaciones JSON y sistemas guardados.
+- Sistemas corruptos o con features desconocidas se rechazan sin romper la interfaz.
+- Al reabrir un sistema guardado, formulario y salida vuelven a quedar sincronizados.
+- Exportaciones JSON identificadas como v2.0.1.
+- Restaurado y actualizado el registro PWA para la nueva arquitectura.
+- Manifest actualizado a Motion Design System.
+- Service Worker actualizado a caché `motion-404-v2.0.1` con shell y scripts v2.
+- CSP mantiene scripts inline deshabilitados y permite únicamente los atributos de estilo dinámicos necesarios por el motor visual.
+
+### QA
+
+- QA estructural: 24/24 PASS.
+- QA de lógica: PASS.
+- 180 presets e IDs únicos verificados.
+- Riesgo predictivo probado de 6/100 en configuración contenida a 83/100 en escenario extremo.
+- QA predictivo probado de 100/100 a 55/100 en escenario extremo.
+- `prefers-reduced-motion`, breakpoints, manifest, cache offline y rutas de GitHub Pages comprobados de forma estructural.
+- La prueba física con Chromium headless del entorno quedó bloqueada por una política organizativa que impide abrir `localhost` y `file://`; no se atribuye ese bloqueo a Motion 404 ni se inventan resultados de interacción.
+
+### Rollback
+
+- Punto anterior a la promoción oficial: `c82ec8b5ec970bbe72f640f9ab7f04ad8d5ba08b`.
+
 ## [1.3.1] — 2026-08-02
 
 ### Corregido
