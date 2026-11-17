@@ -9,7 +9,7 @@ permissions:
   contents: read
 jobs:
   library:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
@@ -24,7 +24,6 @@ jobs:
       - name: Install browser test dependencies
         run: |
           python -m pip install playwright==1.56.0
-          python -m playwright install --with-deps chromium
       - name: Serve under the GitHub Pages subpath
         run: |
           mkdir -p /tmp/pages/Motion-404
@@ -36,7 +35,7 @@ jobs:
           MOTION_URL: http://127.0.0.1:8095/Motion-404/
           MOTION_QA_OUTPUT: /tmp/motion-library-qa
         run: |
-          export CHROMIUM_PATH="$(python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(p.chromium.executable_path); p.stop()')"
+          export CHROMIUM_PATH="$(command -v google-chrome)"
           npm run qa:library
       - name: Upload browser evidence
         if: always()
