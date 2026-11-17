@@ -1,4 +1,4 @@
-name: Motion 404 v2.0.2 Browser QA
+name: Motion 404 Ultimate v5.4 + Original v2 Browser QA
 
 on:
   pull_request:
@@ -11,9 +11,9 @@ permissions:
   contents: read
 
 jobs:
-  browser-qa:
+  studio-and-original:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 18
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,27 +26,32 @@ jobs:
       - name: Install Selenium
         run: python -m pip install --disable-pip-version-check selenium==4.25.0
 
-      - name: JavaScript syntax
-        run: |
-          node --check motion-v2.0.2.js
-          node --check sw.js
+      - name: Check Ultimate Studio syntax and tests
+        run: npm run check
 
-      - name: Build GitHub Pages subpath fixture
+      - name: Verify original JS syntax and bridge
+        run: |
+          node --check original-runtime/motion-v2.0.2.js
+          node --check original-runtime/ultimate-bridge.js
+          node --check original-runtime/sw.js
+          test -s original-runtime/index.html
+
+      - name: Build Pages subpath fixture
         run: |
           mkdir -p /tmp/pages/Motion-404
           rsync -a --exclude=.git ./ /tmp/pages/Motion-404/
           python -m http.server 8000 --bind 127.0.0.1 --directory /tmp/pages > /tmp/motion-http.log 2>&1 &
           echo $! > /tmp/motion-http.pid
           sleep 1
-          curl --fail --silent http://127.0.0.1:8000/Motion-404/ > /dev/null
-          curl --fail --silent http://127.0.0.1:8000/Motion-404/motion-v2.0.2.js > /dev/null
-          curl --fail --silent http://127.0.0.1:8000/Motion-404/sw.js > /dev/null
+          for p in index.html src/app.js src/editor.js service-worker.js original-runtime/index.html original-runtime/motion-v2.0.2.js original-runtime/sw.js; do
+            curl --fail --silent "http://127.0.0.1:8000/Motion-404/$p" > /dev/null
+          done
 
-      - name: Full Chrome controls, layers, import and offline QA
+      - name: Original v2.0.2 browser controls and offline QA
         env:
-          MOTION_LOCAL_URL: http://127.0.0.1:8000/Motion-404/
-        run: python tests/browser_release_v202.py
+          MOTION_LOCAL_URL: http://127.0.0.1:8000/Motion-404/original-runtime/
+        run: python original-runtime/tests/browser_release_v202.py
 
-      - name: Server log on failure
+      - name: Logs on failure
         if: failure()
         run: cat /tmp/motion-http.log || true
