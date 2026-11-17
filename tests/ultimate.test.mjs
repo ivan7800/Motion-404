@@ -1,0 +1,9 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import vm from 'node:vm';
+const root=new URL('../',import.meta.url);const file=name=>fs.readFileSync(new URL(name,root),'utf8');
+const context={window:{}};vm.runInNewContext(file('src/ultimate-data.js'),context);
+test('Data Motion DNA: 6 perfiles y 30 conceptos => 180 presets',()=>{assert.equal(Object.keys(context.window.M404_DNA).length,6);assert.equal(context.window.M404_CONCEPTS.length,30);assert.equal(Object.keys(context.window.M404_DNA).length*context.window.M404_CONCEPTS.length,180)});
+test('Design Library: registros completos, URL segura y nombres únicos',()=>{const data=context.window.M404_DESIGN_RESOURCES;assert.ok(data.length>=40);assert.equal(new Set(data.map(x=>x.name)).size,data.length);assert.ok(data.every(x=>/^https:\/\//.test(x.url)&&x.category&&x.description))});
+test('Los siete módulos Ultimate están implementados',()=>{const src=file('src/ultimate.js');for(const id of ['motion','design','timeline','effects','game','resources','backups'])assert.match(src,new RegExp(`PANEL\\('${id}'`))});
+test('Sin escrituras en las claves de datos históricos',()=>{const src=file('src/ultimate.js');assert.match(src,/motion404-ultimate-v3/);assert.doesNotMatch(src,/localStorage\.setItem\(['"]motion404-v2-state/);assert.doesNotMatch(src,/localStorage\.setItem\(['"]motion404_state/)});
+test('PWA registra módulos y versión nueva',()=>{const sw=file('service-worker.js');for(const x of ['ultimate-data.js','ultimate.js','ultimate.css','v5.4-rc1'])assert.ok(sw.includes(x))});
+test('HTML carga los scripts en orden',()=>{const h=file('index.html');assert.ok(h.indexOf('src/app.js')<h.indexOf('src/ultimate-data.js'));assert.ok(h.indexOf('src/ultimate-data.js')<h.indexOf('src/ultimate.js'))});
