@@ -1,85 +1,75 @@
-# Motion 404 v2.0.1 — Motion Design System
+# MOTION-404 ULTIMATE STUDIO v5.4.0 — GitHub Pages
 
-**Motion 404** es una herramienta local-first para definir un sistema de movimiento web antes de implementarlo: **Motion DNA + Motion Spec + Timeline + Performance/Accessibility QA**.
+Suite local-first con 84 patrones, editor visual de grupos geométricos y ajuste magnético, Timeline con keyframes, HUDs, importación v2, React y exportación HTML/CSS/JS/ZIP.
 
-🌐 Producción: https://ivan7800.github.io/Motion-404/
+## Estado importante
 
-## Qué incluye
+**La versión web del repositorio incorpora físicamente Motion-404 v2.0.2 en `/original-runtime/`**, con su JavaScript, CSS, recursos y pruebas originales conservados. Ultimate se publica en `/` y muestra el DOM original dentro de un panel del mismo origen. El código histórico permanece independiente; no se ha refactorizado a un único DOM.
 
-- **180 presets** de partida.
-- **6 perfiles Motion DNA**: Cinematic, Minimal, Kinetic, Editorial, Brutalist y Spatial.
-- Intensidad 1–5, ritmo y profundidad 2D / capas / espacial.
-- **Motion Inspector** con riesgo GPU/CPU, carga cognitiva y accesibilidad.
-- **Motion Spec** exportable con tokens, reglas, performance budget y Definition of Done.
-- **Timeline** adaptado a las capacidades seleccionadas.
-- **QA predictivo** con warnings de sobreanimación, 3D, cursor effects y tipografía cinética.
-- Guardado local de hasta 50 Motion Systems.
-- Importación/exportación JSON validada.
-- Tema oscuro/claro.
-- PWA y modo offline.
-- Sin cuentas, backend, cookies ni telemetría.
+**No se ha certificado hardware Windows 11, Linux Mint ni iPhone/Safari.** Ver `docs/QA-v5.4.md` y `docs/QA-DISPOSITIVOS-v5.4.md`. La versión web se publica como **RC** por petición expresa, con pruebas físicas de Windows 11, Linux Mint y Safari/iPhone todavía pendientes.
 
-## Uso
+## Arranque del estudio
 
-1. Abre la biblioteca y elige un preset o entra directamente en **Motion Studio**.
-2. Define sector, stack, dirección visual, Motion DNA, ritmo, profundidad e intensidad.
-3. Activa únicamente las capacidades necesarias.
-4. Revisa el **Motion Inspector** y reduce riesgo si aparece MEDIO/ALTO.
-5. Genera el sistema.
-6. Revisa **Motion DNA**, **Motion Spec**, **Timeline** y **Performance / A11y QA**.
-7. Guarda localmente o descarga el sistema en Markdown.
+- **Windows 11:** descomprime y ejecuta `INICIAR_WINDOWS.bat`.
+- **Linux Mint:** `bash INICIAR_LINUX.sh`.
+- **Manual:** `npm start`; en ausencia de Node, `python3 tools/launch.py`.
 
-## Arquitectura
+Los lanzadores utilizan `127.0.0.1`, normalmente en el puerto 8080 o en otro disponible. El almacenamiento del navegador es **por origen y puerto**. Al cambiar de puerto pueden parecer ausentes tus proyectos; usa la copia JSON antes de actualizar.
 
-Aplicación estática preparada para GitHub Pages:
+## Incorporar realmente el runtime original v2.0.2
 
-```text
-index.html
-motion-v2.css
-motion-v2.js
-motion-v2.0.1-preflight.js
-motion-v2.0.1-patch.js
-manifest.webmanifest
-sw.js
-assets/
+**Solo para paquetes locales sin los archivos originales:**
+
+**Windows:** ejecuta `INSTALAR_MOTOR_ORIGINAL_WINDOWS.bat` (requiere Git y Node.js).
+
+**Linux:** `bash INSTALAR_MOTOR_ORIGINAL_LINUX.sh`.
+
+Alternativa en ambos sistemas:
+
+```bash
+npm run import:original
 ```
 
-`motion-v2.0.1-preflight.js` sanea el estado local antes del arranque. `motion-v2.0.1-patch.js` añade el hardening de la release 2.0.1, validación estricta de backups, sincronización de sistemas guardados, versión de exportación y registro PWA.
+O, con una copia de GitHub ya descargada:
 
-## Privacidad
-
-Motion 404 procesa y guarda datos en el navegador. No necesita cuenta, servidor propio ni telemetría. Los sistemas guardados permanecen en `localStorage` hasta que el usuario los exporta o elimina.
-
-## Accesibilidad y rendimiento
-
-- `prefers-reduced-motion`.
-- Foco visible.
-- Navegación por teclado en tabs.
-- Breakpoints específicos para móvil.
-- Recomendación de `transform`/`opacity` frente a propiedades que fuerzan layout.
-- Fallback obligatorio para experiencias 3D pesadas.
-- Política CSP restrictiva; scripts inline deshabilitados.
-
-## QA v2.0.1
-
-- QA estructural: **24/24 PASS**.
-- QA de lógica: **PASS**.
-- 180 presets e IDs únicos validados.
-- Escenario de riesgo mínimo/extremo: **6 → 83**.
-- QA predictivo mínimo/extremo: **100 → 55**.
-- Imports corruptos y features desconocidas rechazados.
-- Manifest y Service Worker actualizados para la release oficial.
-
-Consulta `QA-REPORT.md` para las evidencias y la limitación del navegador headless del entorno de pruebas.
-
-## Rollback
-
-Commit anterior a la promoción oficial de v2.0.1:
-
-```text
-c82ec8b5ec970bbe72f640f9ab7f04ad8d5ba08b
+```bash
+npm run import:original -- --source /ruta/a/Motion-404
 ```
 
-## Licencia
+El importador valida la estructura v2.0.2, copia íntegramente los archivos del repositorio, conserva la versión original de `motion-v2.0.2.js` y produce un `motion-v2.0.2.integrated.js` que publica la API original al estudio. El panel **«Motion-404 original»** muestra su interfaz y permite enviar presets, consultar y exportar sus guardados en el mismo origen. Ultimate prioriza el generador original cuando está cargado; si no lo está, conserva el núcleo portado para no dejar de funcionar.
 
-Consulta `LICENSE`.
+**Limitación arquitectónica:** se comparte el generador original de Motion DNA, pero el DOM histórico sigue aislado dentro de un marco del mismo origen; **no es una refactorización total a un único árbol DOM**.
+
+## Pruebas
+
+```bash
+npm run check                     # 66 pruebas Node + sintaxis
+npm run qa:device                 # HTTP, manifiesto, rutas, MIME y PWA preflight
+python3 tests/browser-v4-synthetic.py
+python3 tests/browser-v52.py
+python3 tests/browser-v53.py
+npm run qa:legacy                 # Tras importar fuente; Selenium + Chrome/Chromedriver
+```
+
+`qa:legacy` se bloquea expresamente si falta el runtime original o Selenium. Ejecuta la suite histórica contra `original-runtime/` y **no contacta con la URL pública de producción** para su diagnóstico inicial. Las comprobaciones de PWA en un navegador y hardware real requieren acceso al dispositivo.
+
+## Guardados, migración y recuperación
+
+- Proyectos v4/v5: `motion404-ultimate-v4-projects` (schema 4).
+- Ultimate v3: `motion404-ultimate-v3`.
+- Histórico v2.0.2: `motion404-v2-state`.
+
+El estudio no escribe en la clave histórica, salvo que uses explícitamente la interfaz original. La actualización en la misma dirección GitHub Pages conserva el origen; aun así, exporta primero una copia JSON de tus sistemas y proyectos.
+
+## Requisitos y alcance
+
+Node 20+ o Python 3 para el servidor local. Git y conexión para incorporar el original desde GitHub. Todas las funciones de Ultimate siguen disponibles sin el original importado. En el despliegue GitHub Pages, el original ya está disponible en `/original-runtime/`.
+
+Consulta `docs/QA-v5.4.md` para los resultados reales y los bloqueantes.
+
+## URLs publicadas
+
+- Ultimate Studio: `https://ivan7800.github.io/Motion-404/`
+- Motion-404 v2.0.2 original: `https://ivan7800.github.io/Motion-404/original-runtime/`
+
+La suite histórica ahora se ejecuta desde `.github/workflows/v202-browser-qa.yml` sobre el subdirectorio original. Las pruebas físicas siguen sin certificarse.

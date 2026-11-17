@@ -1,25 +1,38 @@
 {
   "id": "./",
-  "name": "Motion 404 — Motion Design System",
-  "short_name": "Motion 404",
-  "description": "Sistema local para definir Motion DNA, especificaciones, timelines y QA predictivo de rendimiento y accesibilidad.",
-  "lang": "es",
-  "dir": "ltr",
+  "name": "MOTION-404 Ultimate Studio v5.4",
+  "short_name": "MOTION-404 PRO",
+  "description": "Editor visual y Motion DNA con Timeline, grupos geométricos, exportaciones y modo offline",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "orientation": "any",
-  "background_color": "#080a0f",
-  "theme_color": "#080a0f",
-  "categories": ["productivity", "developer", "design"],
+  "background_color": "#0a0d12",
+  "theme_color": "#0a0d12",
+  "lang": "es",
   "icons": [
-    {"src":"assets/icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
-    {"src":"assets/icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},
-    {"src":"assets/icons/icon-maskable-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
-  ],
-  "shortcuts": [
-    {"name":"Preset Library","short_name":"Presets","url":"./#biblioteca","icons":[{"src":"assets/icons/icon-192.png","sizes":"192x192"}]},
-    {"name":"Motion Studio","short_name":"Studio","url":"./#studio","icons":[{"src":"assets/icons/icon-192.png","sizes":"192x192"}]},
-    {"name":"Sistemas guardados","short_name":"Sistemas","url":"./#guardados","icons":[{"src":"assets/icons/icon-192.png","sizes":"192x192"}]}
+    {
+      "src": "./assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./assets/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ]
 }
