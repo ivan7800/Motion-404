@@ -1,12 +1,12 @@
-# MOTION-404 ULTIMATE STUDIO v5.4.0 — Candidata local
+# MOTION-404 ULTIMATE STUDIO v5.4.0 — GitHub Pages
 
 Suite local-first con 84 patrones, editor visual de grupos geométricos y ajuste magnético, Timeline con keyframes, HUDs, importación v2, React y exportación HTML/CSS/JS/ZIP.
 
 ## Estado importante
 
-**La copia física completa de Motion-404 v2.0.2 no está incluida en este ZIP:** el entorno de construcción no tiene acceso de clonación a GitHub. El ZIP contiene la **integración preparada y probada con un repositorio de prueba**, no el contenido histórico íntegro. Para completarla, ejecuta el instalador del runtime original (requiere Internet) en tu equipo. Con eso se copia todo el checkout a `original-runtime/`, se mantiene una copia SHA-256 del origen y se crea un adaptador de su runtime real. La base JS/CSS original se conserva byte a byte.
+**La versión web del repositorio incorpora físicamente Motion-404 v2.0.2 en `/original-runtime/`**, con su JavaScript, CSS, recursos y pruebas originales conservados. Ultimate se publica en `/` y muestra el DOM original dentro de un panel del mismo origen. El código histórico permanece independiente; no se ha refactorizado a un único DOM.
 
-**No se ha certificado hardware Windows 11, Linux Mint ni iPhone/Safari.** Ver `docs/QA-v5.4.md` y `docs/QA-DISPOSITIVOS-v5.4.md`. No publicar en `main` sin superar la matriz.
+**No se ha certificado hardware Windows 11, Linux Mint ni iPhone/Safari.** Ver `docs/QA-v5.4.md` y `docs/QA-DISPOSITIVOS-v5.4.md`. La versión web se publica como **RC** por petición expresa, con pruebas físicas de Windows 11, Linux Mint y Safari/iPhone todavía pendientes.
 
 ## Arranque del estudio
 
@@ -18,7 +18,7 @@ Los lanzadores utilizan `127.0.0.1`, normalmente en el puerto 8080 o en otro dis
 
 ## Incorporar realmente el runtime original v2.0.2
 
-Este es el paso necesario para terminar la integración desde un equipo con Internet:
+**Solo para paquetes locales sin los archivos originales:**
 
 **Windows:** ejecuta `INSTALAR_MOTOR_ORIGINAL_WINDOWS.bat` (requiere Git y Node.js).
 
@@ -59,10 +59,17 @@ npm run qa:legacy                 # Tras importar fuente; Selenium + Chrome/Chro
 - Ultimate v3: `motion404-ultimate-v3`.
 - Histórico v2.0.2: `motion404-v2-state`.
 
-El estudio no escribe en la clave histórica, salvo que uses explícitamente la interfaz del propio original importado. La aplicación publicada en GitHub Pages tiene **otro origen**; exporta su JSON de sistemas, impórtalo desde Ultimate, comprueba los registros y conserva un backup antes de cambiar de versión.
+El estudio no escribe en la clave histórica, salvo que uses explícitamente la interfaz original. La actualización en la misma dirección GitHub Pages conserva el origen; aun así, exporta primero una copia JSON de tus sistemas y proyectos.
 
 ## Requisitos y alcance
 
-Node 20+ o Python 3 para el servidor local. Git y conexión para incorporar el original desde GitHub. Todas las funciones de Ultimate siguen disponibles sin el original importado. No hay sincronización remota de proyectos ni cambios en GitHub por ejecutar estos scripts.
+Node 20+ o Python 3 para el servidor local. Git y conexión para incorporar el original desde GitHub. Todas las funciones de Ultimate siguen disponibles sin el original importado. En el despliegue GitHub Pages, el original ya está disponible en `/original-runtime/`.
 
 Consulta `docs/QA-v5.4.md` para los resultados reales y los bloqueantes.
+
+## URLs publicadas
+
+- Ultimate Studio: `https://ivan7800.github.io/Motion-404/`
+- Motion-404 v2.0.2 original: `https://ivan7800.github.io/Motion-404/original-runtime/`
+
+La suite histórica ahora se ejecuta desde `.github/workflows/v202-browser-qa.yml` sobre el subdirectorio original. Las pruebas físicas siguen sin certificarse.
