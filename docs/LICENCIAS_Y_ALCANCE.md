@@ -7,7 +7,7 @@
 - Biblioteca referenciada: https://smoothui.dev/
 - Fecha de observación del listado: 17 de noviembre de 2026.
 
-El inventario contiene 84 referencias nominales de esta colección (53 entradas DesignBookmark, 25 Kokonut UI y 6 SmoothUI). El listado de nombres no confiere titularidad sobre esos nombres comerciales ni sobre el código de los autores.
+El catálogo v5.5 contiene 90 componentes: seis diseños originales de MOTION-404 y 84 referencias nominales de esta colección (53 entradas DesignBookmark, 25 Kokonut UI y 6 SmoothUI). El listado de nombres no confiere titularidad sobre esos nombres comerciales ni sobre el código de los autores.
 
 ## Qué SÍ incluye este ZIP
 
@@ -25,6 +25,10 @@ Puedes modificar y distribuir tus propias implementaciones de este paquete bajo 
 
 Las demostraciones de confirmación, IA, biometría, voz, tarjetas de pago, firma e invitaciones **no son servicios reales** y nunca deben emplearse como sistemas reales de autenticación, cobro o autorización. El campo de tarjeta solicita solo cuatro dígitos ficticios. No envía datos a ninguna parte.
 
+## Componentes propios añadidos en v5.5
+
+Spotlight card, Disclosure stack, Orbit selector, Split reveal, Ripple action y Flip counter son implementaciones escritas para MOTION-404. Sus gráficos se generan con CSS y no incorporan imágenes, fuentes, código ni recursos de terceros. La referencia de autoría enlaza a este repositorio.
+
 ## Calidad
 
-La cobertura de **84 de 84** se refiere a que cada registro dispone de un renderizador original y visible, no a que se haya certificado una réplica 1:1. Las pruebas automáticas y del navegador dan cobertura a aspectos concretos; no se ha llevado a cabo una auditoría manual completa de accesibilidad WCAG o hardware móvil real.
+La cobertura de **90 de 90** se refiere a que cada registro dispone de un renderizador original y visible, no a que se haya certificado una réplica 1:1. Las pruebas automáticas y del navegador dan cobertura a aspectos concretos; no se ha llevado a cabo una auditoría manual completa de accesibilidad WCAG o hardware móvil real.

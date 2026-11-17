@@ -1,6 +1,18 @@
-# MOTION-404 ULTIMATE STUDIO v5.4.0 — GitHub Pages
+# MOTION-404 ULTIMATE STUDIO v5.5.0 RC — GitHub Pages
 
-Suite local-first con 84 patrones, editor visual de grupos geométricos y ajuste magnético, Timeline con keyframes, HUDs, importación v2, React y exportación HTML/CSS/JS/ZIP.
+Suite local-first con 90 patrones, editor visual de grupos geométricos y ajuste magnético, Timeline con keyframes, HUDs, importación v2, React y exportación HTML/CSS/JS/ZIP.
+
+## Biblioteca interactiva v5.5
+
+- **90 demostraciones:** 84 patrones de referencia y seis diseños originales nuevos (Spotlight card, Disclosure stack, Orbit selector, Split reveal, Ripple action y Flip counter).
+- Acceso a código y prompts desde las tarjetas; inspector con cuatro variantes, comparación con el original, enlace directo y HTML autónomo.
+- Favoritos con sus ajustes: exportación e importación JSON, fusionando la colección del navegador. Los ajustes de componentes coincidentes se actualizan con los del archivo importado.
+- Movimiento reducido global y por componente, animaciones fuera de pantalla en pausa, confirmación mantenida con teclado y conservación del foco al interactuar.
+- Los seis componentes nuevos también están disponibles como patrones dentro del compositor visual.
+
+Abre [la biblioteca](https://ivan7800.github.io/Motion-404/#catalog) y pulsa **6 nuevos · Originals**. Los enlaces de componente identifican el patrón; para compartir tus ajustes, exporta el HTML o la copia de guardados.
+
+Para regenerar los recursos autocontenidos tras editar motor/componentes/CSS: `npm run build:exports`. La suite detecta cualquier desincronización. QA del navegador: `npm run qa:library` (Playwright y Chromium; variables `MOTION_URL`, `CHROMIUM_PATH` y `MOTION_QA_OUTPUT`).
 
 ## Estado importante
 

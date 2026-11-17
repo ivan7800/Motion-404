@@ -1,18 +1,20 @@
 {
   "name": "motion-404-ultimate-studio",
-  "version": "5.4.0-rc.1",
+  "version": "5.5.0-rc.1",
   "private": true,
   "type": "module",
-  "description": "MOTION-404 Ultimate Studio v5.4: visual group geometry, magnetic snap, v2 Motion Spec core and keyframes",
+  "description": "MOTION-404 Ultimate Studio v5.5: live library, variants, backups and 90 interactive patterns",
   "scripts": {
     "start": "node server.mjs",
     "dev": "node server.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check src/catalog.js && node --check src/components.js && node --check src/engine.js && node --check src/export-payload.js && node --check src/app.js && node --check src/ultimate-data.js && node --check src/ultimate.js && node --check src/editor.js && node --check src/motion-v2-core.js && node --check src/group-layout.mjs && node --check src/keyframes.mjs && node --check src/timeline-pro.mjs && node --check src/editor-core.mjs && node --check src/legacy-migration.mjs && node --check src/zip-utils.mjs && node --check src/bridges.mjs && node --test tests/*.test.mjs",
+    "check": "node --check src/library-model.js && node --check src/catalog.js && node --check src/components.js && node --check src/engine.js && node --check src/export-payload.js && node --check src/app.js && node --check src/ultimate-data.js && node --check src/ultimate.js && node --check src/editor.js && node --check src/motion-v2-core.js && node --check src/group-layout.mjs && node --check src/keyframes.mjs && node --check src/timeline-pro.mjs && node --check src/editor-core.mjs && node --check src/legacy-migration.mjs && node --check src/zip-utils.mjs && node --check src/bridges.mjs && node --test tests/*.test.mjs",
     "import:original": "node tools/import-original.mjs",
     "qa:device": "node tools/qa-device.mjs",
     "qa:legacy": "node tools/qa-legacy.mjs",
-    "qa:chromium": "python3 tests/browser-v53.py"
+    "qa:chromium": "python3 tests/browser-v53.py",
+    "qa:library": "python3 tests/browser-library-v55.py",
+    "build:exports": "node tools/build-exports.mjs"
   },
   "engines": {
     "node": ">=20"

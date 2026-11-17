@@ -1,4 +1,4 @@
-// Catálogo público de referencias; no contiene código copiado de terceros.
+/* 84 reference patterns + 6 original MOTION-404 interactions. */
 window.M404_CATALOG = [
   {
     "id": 1,
@@ -755,5 +755,65 @@ window.M404_CATALOG = [
     "provider": "Kokonut UI",
     "origin": "Patrón inspirado; implementación original, no código del proveedor.",
     "reference": "https://kokonutui.com/"
+  },
+  {
+    "id": 85,
+    "slug": "spotlight-card",
+    "name": "Spotlight card",
+    "category": "Cards",
+    "provider": "MOTION-404",
+    "origin": "Diseño e implementación original de MOTION-404.",
+    "reference": "https://github.com/ivan7800/Motion-404",
+    "new": true
+  },
+  {
+    "id": 86,
+    "slug": "disclosure-stack",
+    "name": "Disclosure stack",
+    "category": "Navigation",
+    "provider": "MOTION-404",
+    "origin": "Diseño e implementación original de MOTION-404.",
+    "reference": "https://github.com/ivan7800/Motion-404",
+    "new": true
+  },
+  {
+    "id": 87,
+    "slug": "orbit-selector",
+    "name": "Orbit selector",
+    "category": "Navigation",
+    "provider": "MOTION-404",
+    "origin": "Diseño e implementación original de MOTION-404.",
+    "reference": "https://github.com/ivan7800/Motion-404",
+    "new": true
+  },
+  {
+    "id": 88,
+    "slug": "split-reveal",
+    "name": "Split reveal",
+    "category": "Inputs",
+    "provider": "MOTION-404",
+    "origin": "Diseño e implementación original de MOTION-404.",
+    "reference": "https://github.com/ivan7800/Motion-404",
+    "new": true
+  },
+  {
+    "id": 89,
+    "slug": "ripple-action",
+    "name": "Ripple action",
+    "category": "Buttons",
+    "provider": "MOTION-404",
+    "origin": "Diseño e implementación original de MOTION-404.",
+    "reference": "https://github.com/ivan7800/Motion-404",
+    "new": true
+  },
+  {
+    "id": 90,
+    "slug": "flip-counter",
+    "name": "Flip counter",
+    "category": "Text",
+    "provider": "MOTION-404",
+    "origin": "Diseño e implementación original de MOTION-404.",
+    "reference": "https://github.com/ivan7800/Motion-404",
+    "new": true
   }
 ];

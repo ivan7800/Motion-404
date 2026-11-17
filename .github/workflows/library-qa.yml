@@ -1,0 +1,48 @@
+name: Live library browser QA
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  library:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check syntax, data and synchronized exports
+        run: npm run check
+      - name: Install browser test dependencies
+        run: |
+          python -m pip install playwright==1.56.0
+          python -m playwright install --with-deps chromium
+      - name: Serve under the GitHub Pages subpath
+        run: |
+          mkdir -p /tmp/pages/Motion-404
+          rsync -a --exclude=.git ./ /tmp/pages/Motion-404/
+          python -m http.server 8095 --bind 127.0.0.1 --directory /tmp/pages > /tmp/motion-http.log 2>&1 &
+          for i in $(seq 1 20); do curl --fail --silent http://127.0.0.1:8095/Motion-404/ > /dev/null && break; sleep 1; done
+      - name: Exercise library, exports, keyboard, mobile viewport and offline
+        env:
+          MOTION_URL: http://127.0.0.1:8095/Motion-404/
+          MOTION_QA_OUTPUT: /tmp/motion-library-qa
+        run: |
+          export CHROMIUM_PATH="$(python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(p.chromium.executable_path); p.stop()')"
+          npm run qa:library
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: library-browser-evidence
+          path: |
+            /tmp/motion-library-qa
+            /tmp/motion-http.log

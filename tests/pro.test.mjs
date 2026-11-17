@@ -26,7 +26,7 @@ test('PRO: rediseño no modifica almacenamiento de datos ni recursos existentes'
 test('PRO: caché PWA incluye recursos visuales nuevos',()=>{
  const sw=read('service-worker.js');
  assert.ok(sw.includes('src/pro.js')&&sw.includes('src/pro.css'));
- assert.ok(sw.includes('v5.4-rc1'));
+ assert.ok(sw.includes('v5.5-rc1'));
 });
 test('PRO: CSS contiene estados responsive, teclado y movimiento reducido',()=>{
  const css=read('src/pro.css');

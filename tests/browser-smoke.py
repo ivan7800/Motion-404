@@ -18,11 +18,12 @@ def run():
         errors=[]
         page.on('pageerror',lambda e: errors.append(str(e)))
         page.goto(URL,wait_until='domcontentloaded')
+        page.locator('[data-pro-go="catalog"]').first.click()
         page.locator('.component-card').first.wait_for()
         assert page.locator('.component-card').count()==12
-        assert page.locator('#result-count').inner_text().startswith('84')
-        assert page.evaluate('Object.keys(window.M404_DEMOS).length')==84
-        assert page.evaluate('window.M404_CATALOG.length')==84
+        assert page.locator('#result-count').inner_text().startswith('90')
+        assert page.evaluate('Object.keys(window.M404_DEMOS).length')==90
+        assert page.evaluate('window.M404_CATALOG.length')==90
         page.locator('#search').fill('Scramble text')
         assert page.locator('.component-card').count()==1
         page.locator('[data-inspect="23"]').click()
@@ -37,7 +38,7 @@ def run():
         page.locator('#close-detail').click()
         page.locator('#search').fill('')
         page.locator('[data-favorite="1"]').click()
-        page.locator('[data-category="Saved"]').first.click()
+        page.locator('#library-saved').click()
         assert page.locator('.component-card').count()==1
         page.locator('[data-inspect="1"]').click()
         page.locator('#detail-preview [data-field="email"]').fill('ejemplo@ejemplo.com')
