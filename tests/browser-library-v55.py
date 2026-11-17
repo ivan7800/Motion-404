@@ -141,6 +141,22 @@ def run():
             assert viewer.evaluate('performance.getEntriesByType("resource").length') == 0
             viewer.close()
             restored.locator('#close-detail').click()
+        # The composer must retain the new IDs rather than clamping them to 84.
+        restored.locator('[data-pro-go="editor"]').first.click()
+        for id in range(85, 91):
+            restored.locator('#m4-pattern-select').select_option(str(id))
+            restored.locator('#m4-add-pattern').click()
+            expect(restored.locator(f'#m4-stage-host .demo-root[data-demo-id="{id}"]')).to_have_count(1)
+        with restored.expect_download() as info:
+            restored.locator('#m4-html').click()
+        composed = OUT / 'composer-originals.html'
+        info.value.save_as(str(composed))
+        viewer = clean.new_page()
+        viewer.on('pageerror', lambda e: errors.append(str(e)))
+        viewer.goto(composed.as_uri())
+        for id in range(85, 91):
+            expect(viewer.locator(f'.demo-root[data-demo-id="{id}"]')).to_have_count(1)
+        viewer.close()
         # Touch viewport, mobile dialog, light theme and system reduced motion.
         mobile_context = browser.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True, reduced_motion='reduce')
         mobile = mobile_context.new_page()

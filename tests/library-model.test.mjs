@@ -28,3 +28,12 @@ test('corrupt or missing local data falls back to usable defaults', () => {
   assert.equal(model.config({text: 'x'.repeat(500)}).text.length, 140);
   assert.equal(model.config(null).reduced, false);
 });
+
+// Regression: imported and composed patterns must survive normalization and export.
+import {makeBlock, normalizeProject, projectJS} from '../src/editor-core.mjs';
+test('all six new IDs survive project normalization and export', () => {
+  const blocks = Array.from({length: 6}, (_, i) => makeBlock('pattern', {patternId: 85 + i}));
+  const project = normalizeProject({schema: 4, blocks});
+  assert.deepEqual(project.blocks.map(b => b.patternId), [85, 86, 87, 88, 89, 90]);
+  for (const id of [85, 86, 87, 88, 89, 90]) assert.ok(projectJS(project).includes(`,${id},`));
+});
