@@ -16,7 +16,7 @@ const copy=async txt=>{try{await navigator.clipboard.writeText(txt);status('Cód
 const button=(label,id,cls='')=>`<button type="button" id="${id}" class="u-button ${cls}">${label}</button>`;
 const E=document.createElement('section');E.id='ultimate-workspace';E.className='catalog-section';E.innerHTML=`
 <div class="eyebrow section-kicker">MOTION-404 / ULTIMATE TOOLCHAIN</div><h2>Ultimate <span class="text-gradient">Studio.</span></h2>
-<p>Laboratorio independiente de diseño, movimiento, efectos y UI para juegos. Los 84 patrones originales siguen disponibles en la biblioteca de arriba.</p>
+<p>Laboratorio independiente de diseño, movimiento, efectos y UI para juegos. Los 90 patrones originales siguen disponibles en la biblioteca de arriba.</p>
 <div class="ultimate-nav" role="navigation" aria-label="Herramientas Ultimate">
 ${[['original','Motion-404 original'],['motion','Motion DNA · 180 presets'],['design','Design Studio'],['timeline','Timeline'],['effects','Effects Lab'],['game','Game UI Forge'],['resources','Design Library'],['backups','Backups']].map(([id,label])=>`<button data-u-tab="${id}" aria-pressed="false">${label}</button>`).join('')}
 </div><div id="ultimate-panels"></div><div id="ultimate-status" class="u-chip" role="status" hidden></div>`;

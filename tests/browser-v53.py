@@ -5,8 +5,8 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 import os,re,json
 ROOT=Path(__file__).resolve().parent.parent
-CLASSIC=['src/catalog.js','src/components.js','src/engine.js','src/export-payload.js','src/app.js','src/ultimate-data.js','src/motion-v2-core.js','src/ultimate.js','src/pro.js']
-CSS=['src/style.css','src/ultimate.css','src/pro.css','src/editor.css']
+CLASSIC=['src/catalog.js','src/components.js','src/engine.js','src/export-payload.js','src/library-model.js','src/app.js','src/ultimate-data.js','src/motion-v2-core.js','src/ultimate.js','src/pro.js']
+CSS=['src/style.css','src/ultimate.css','src/pro.css','src/library.css','src/editor.css']
 MODULES=['src/keyframes.mjs','src/group-layout.mjs','src/editor-core.mjs','src/zip-utils.mjs','src/legacy-migration.mjs','src/bridges.mjs','src/timeline-pro.mjs','src/editor.js']
 def bundle():
  parts=[]

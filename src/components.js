@@ -1,4 +1,4 @@
-/* 84 patrones de interfaz: recreaciones originales, NO código de DesignBookmark ni de proveedores externos. */
+/* 90 patrones de interfaz: recreaciones originales, NO código de DesignBookmark ni de proveedores externos. */
 (function(){
 const H={
  esc:v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c])),
@@ -101,5 +101,13 @@ Object.assign(window.M404_DEMOS,{
 82:(s)=>box(hd('Lista de tareas')+['Crear la escena','Añadir la animación','Revisar contraste','Comprobar móvil'].map((v,i)=>`<label class="check-line"><input data-check="${i}" type="checkbox" ${s.checks?.[i]?'checked':''}>${v}</label>`).join('')+pill((s.checks||[]).filter(Boolean).length+' tareas completadas')),
 83:(s)=>box(hd('Ambiente sintetizado','Tono original generado localmente')+`<div class="audio-bars ${s.on?'awake':''}">${[1,2,3,4,5,6,7,8].map(i=>`<i style="animation-delay:${i*70}ms"></i>`).join('')}</div>`+btn(s.on?'■ Silenciar':'▶ Activar ambiente','music')),
 84:()=>box(hd('Lanzador de comandos')+btn('⌕  Command 404','palette','wide')+pill('Busca una acción rápida')),
+});
+Object.assign(window.M404_DEMOS, {
+85: (s,o)=>box(`<button type="button" class="spotlight-card ${s.on?'is-lit':''}" data-act="toggle" aria-pressed="${s.on}"><span class="spotlight-grid" aria-hidden="true"></span><small>ARCHIVO / 404</small><strong>${esc(o.text)}</strong><span>${s.on?'✓ Fragmento descubierto':'Explora la luz · pulsa para revelar'}</span></button>`),
+86: ()=>box(hd('Capas del archivo')+`<div class="disclosure-stack">${[['La señal','Una frecuencia cruza la niebla.'],['El umbral','El siguiente paso empieza aquí.'],['El regreso','Guarda una luz para el camino.']].map(([t,d])=>`<details><summary>${t}<span aria-hidden="true">+</span></summary><p>${d}</p></details>`).join('')}</div>`),
+87: (s)=>box(hd('Órbita de navegación')+`<div class="orbit-selector" style="--orbit-index:${s.tab}"><i aria-hidden="true"></i><strong>${['Crear','Explorar','Guardar'][s.tab]}</strong>${['Crear','Explorar','Guardar'].map((t,i)=>`<button type="button" data-act="tab" data-val="${i}" class="orbit-stop orbit-stop-${i}" aria-label="${t}" aria-pressed="${s.tab===i}">${['✦','⌕','♡'][i]}</button>`).join('')}</div>`),
+88: (s)=>box(hd('Dos atmósferas')+`<div class="split-reveal" style="--reveal:${s.range}%"><div class="reveal-world reveal-before"><b>NOCHE</b><i></i></div><div class="reveal-world reveal-after"><b>AURORA</b><i></i></div><span class="reveal-line" aria-hidden="true"></span></div><label class="reveal-control">Revelar <input aria-label="Porcentaje de aurora" class="d-range" type="range" data-field="reveal" min="0" max="100" value="${s.range}"><output>${s.range}%</output></label>`),
+89: (s)=>box(hd('Pulso de confirmación')+`<button type="button" class="ripple-action ${s.on?'is-active':''}" data-act="toggle" aria-pressed="${s.on}"><span class="ripple-ring" aria-hidden="true"></span><span>${s.on?'✓ Señal enviada':'Emitir señal ↗'}</span></button>`+pill('Interacción local · pulsa para alternar')),
+90: (s)=>box(hd('Contador de expediciones')+`<div class="flip-counter" aria-live="polite" aria-atomic="true">${String(s.number).padStart(2,'0').split('').map(d=>`<span>${d}</span>`).join('')}</div>`+row(`<button type="button" class="d-btn outline" data-act="decrement" aria-label="Restar expedición" ${s.number===0?'disabled':''}>−</button><button type="button" class="d-btn" data-act="increment" aria-label="Añadir expedición" ${s.number===99?'disabled':''}>+</button>`))
 });
 })();

@@ -7,16 +7,17 @@ const root=path.resolve(import.meta.dirname,'..');
 const load=async(file)=>readFile(path.join(root,file),'utf8');
 async function context(){const g={window:{}};vm.createContext(g);vm.runInContext(await load('src/catalog.js'),g);vm.runInContext(await load('src/components.js'),g);return g.window}
 
-test('el catálogo contiene exactamente 84 entradas originales',async()=>{
- const w=await context();assert.equal(w.M404_CATALOG.length,84);assert.deepEqual([...new Set(w.M404_CATALOG.map(c=>c.id))].length,84);
- assert.equal(JSON.stringify(w.M404_CATALOG.map(c=>c.id)),JSON.stringify(Array.from({length:84},(_,i)=>i+1)));
+test('el catálogo contiene exactamente 90 entradas originales',async()=>{
+ const w=await context();assert.equal(w.M404_CATALOG.length,90);assert.deepEqual([...new Set(w.M404_CATALOG.map(c=>c.id))].length,90);
+ assert.equal(JSON.stringify(w.M404_CATALOG.map(c=>c.id)),JSON.stringify(Array.from({length:90},(_,i)=>i+1)));
  assert.equal(w.M404_CATALOG.filter(c=>c.provider==='DesignBookmark').length,53);
  assert.equal(w.M404_CATALOG.filter(c=>c.provider==='Kokonut UI').length,25);
  assert.equal(w.M404_CATALOG.filter(c=>c.provider==='SmoothUI').length,6);
+ assert.equal(w.M404_CATALOG.filter(c=>c.provider==='MOTION-404').length,6);
 });
-test('los 84 componentes generan HTML diferenciado sin excepciones',async()=>{
+test('los 90 componentes generan HTML diferenciado sin excepciones',async()=>{
  const w=await context();const s={on:false,done:false,open:false,step:0,tab:0,range:35,number:2,text:'',items:[],tags:['motion','404'],checks:[false,true,false,false],rating:0,cart:0,loading:false};
- const seen=new Set();for(const item of w.M404_CATALOG){const render=w.M404_DEMOS[item.id];assert.equal(typeof render,'function',`Falta renderizador #${item.id}`);const markup=render({...s}, {text:'Texto de prueba <script>alert(1)</script>',accent:'#a78bfa',speed:1});assert.equal(typeof markup,'string');assert.ok(markup.length>75,`Demo vacía #${item.id}`);assert.ok(markup.includes('class='),`HTML inválido #${item.id}`);seen.add(markup)}assert.equal(seen.size,84,'Debe haber 84 demostraciones diferentes');
+ const seen=new Set();for(const item of w.M404_CATALOG){const render=w.M404_DEMOS[item.id];assert.equal(typeof render,'function',`Falta renderizador #${item.id}`);const markup=render({...s}, {text:'Texto de prueba <script>alert(1)</script>',accent:'#a78bfa',speed:1});assert.equal(typeof markup,'string');assert.ok(markup.length>75,`Demo vacía #${item.id}`);assert.ok(markup.includes('class='),`HTML inválido #${item.id}`);seen.add(markup)}assert.equal(seen.size,90,'Debe haber 90 demostraciones diferentes');
 });
 test('metadatos de procedencia, categorías y links están presentes',async()=>{const w=await context();const cats=new Set(['Buttons','Inputs','Navigation','Cards','AI','Text']);for(const c of w.M404_CATALOG){assert.ok(cats.has(c.category),c.name);assert.ok(/^https:\/\//.test(c.reference),c.name);assert.ok(c.slug.length>1);assert.ok(c.origin.includes('original'))}});
 test('el código del paquete no usa librerías ni conexiones externas',async()=>{const pkg=JSON.parse(await load('package.json'));assert.deepEqual(pkg.dependencies,{});assert.deepEqual(pkg.devDependencies,{});const html=await load('index.html');assert.ok(!html.includes('https://cdn.'));assert.match(html,/src\/engine.js/);assert.match(html,/src\/components.js/)});

@@ -1,3 +1,13 @@
+## 5.5.0 RC — 2026-11-17
+
+- Biblioteca de 90 patrones, con seis componentes originales adicionales y filtro de novedades.
+- Código visible, prompts con ajustes, enlaces directos, variantes y comparación en el inspector.
+- Exportar/importar favoritos y configuraciones con validación del archivo y combinación con guardados existentes.
+- Confirmación mantenida con teclado, foco tras repintado, reducción de movimiento aplicada al motor y exportaciones.
+- Animaciones CSS fuera de pantalla pausadas; velocidad aplicada a animaciones del componente.
+- Caché PWA v5.5 y regeneración reproducible de payloads autocontenidos.
+- QA automatizado del navegador sobre subruta Pages, exportaciones y recarga sin conexión.
+
 # Changelog
 
 ## [2.0.1] — 2026-09-13
