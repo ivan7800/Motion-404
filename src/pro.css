@@ -19,3 +19,5 @@ body.light{--bg:#f0f2eb;--surface:#fff;--surface2:#eef2e8;--surface3:#e6ecdf;--l
   #sidebar-backdrop:not([hidden]){display:block;position:fixed;inset:0;z-index:14;border:0;background:#070b11aa}
   .sidebar{height:100dvh}
 }
+
+.pro-menu-heading { margin: 12px 12px 2px; font-size: 11px; color: inherit; opacity: .8; }

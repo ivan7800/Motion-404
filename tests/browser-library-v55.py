@@ -156,6 +156,38 @@ def run():
         restored.keyboard.press('Shift+Tab')
         assert restored.evaluate("!!document.activeElement.closest('#detail-overlay')")
         restored.keyboard.press('Escape')
+        # Transfer a customized library pattern, then reopen the exported project.
+        restored.locator('[data-inspect="13"]').click()
+        restored.locator('[data-preset="cinema"]').click()
+        restored.locator('#custom-text').fill('Variante de prueba')
+        restored.locator('#reduce-motion').check()
+        restored.locator('#detail-compose').click()
+        expect(restored.locator('#m4-name')).to_be_visible()
+        restored.locator('#m4-save').click()
+        restored.reload()
+        with restored.expect_download() as output:
+            restored.locator('#m4-html').click()
+        path = OUT / 'variante-compuesta.html'
+        output.value.save_as(str(path))
+        viewer = clean.new_page()
+        viewer.goto(path.as_uri())
+        root = viewer.locator('.demo-root[data-demo-id="13"]')
+        for key, value in {'text':'Variante de prueba','accent':'#f2a0ca','speed':'0.75','reduced':'true'}.items():
+            expect(root).to_have_attribute('data-' + key, value)
+        viewer.close()
+        # A project backup containing v3 data must restore without replacing local projects.
+        restored.locator('.pro-suite-nav [data-pro-go="design"]').click()
+        restored.locator('#u-save-design').click()
+        restored.locator('.pro-suite-nav [data-pro-go="editor"]').click()
+        with restored.expect_download() as output:
+            restored.locator('#m4-backup-all').click()
+        backup_path = OUT / 'studio.json'
+        output.value.save_as(str(backup_path))
+        restored.once('dialog', lambda dialog: dialog.accept())
+        restored.locator('#m4-import-file').set_input_files(str(backup_path))
+        expect(restored.locator('#m4-live-region')).to_contain_text('Backup fusionado')
+        assert restored.evaluate("JSON.parse(localStorage.getItem('motion404-v4-imported-v3')).data.designs.length") == 1
+        restored.locator('.pro-suite-nav [data-pro-go="catalog"]').click()
         # All six new exports run without the studio or network resources.
         restored.locator('#library-new').click()
         for id in range(85, 91):
