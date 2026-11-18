@@ -12,9 +12,49 @@ OUT = Path(os.getenv('MOTION_QA_OUTPUT', '/tmp/motion-library-qa'))
 OUT.mkdir(parents=True, exist_ok=True)
 
 
+
+def exercise_catalog(browser):
+    """Walk the published UI, including the commands exposed after a demo expands."""
+    page = browser.new_page(viewport={'width': 1440, 'height': 960})
+    errors = []
+    page.on('pageerror', lambda exc: errors.append(str(exc)))
+    page.goto(URL + '#catalog')
+    seen_patterns = set()
+    activations = {}
+    for number in range(1, 9):
+        page.locator(f'#pagination-controls [data-page="{number}"]').click()
+        cards = page.locator('[data-inspect]').evaluate_all('els => els.map(el => el.dataset.inspect)')
+        for pattern in cards:
+            page.locator(f'[data-inspect="{pattern}"]').click()
+            demo = page.locator('#detail-preview .demo-root')
+            expect(demo).to_have_attribute('data-demo-id', pattern)
+            visited = set()
+            while True:
+                buttons = demo.locator('[data-act]:visible:not(:disabled)')
+                candidates = buttons.evaluate_all("""els => els.map(el =>
+                    [el.dataset.act, el.dataset.val || '', el.textContent.trim().slice(0,40)])""")
+                index = next((i for i, key in enumerate(candidates) if tuple(key[:2]) not in visited), None)
+                if index is None:
+                    break
+                action, value, _ = candidates[index]
+                visited.add((action, value))
+                buttons.nth(index).click(timeout=4500)
+                if page.locator('#command-overlay').is_visible():
+                    page.keyboard.press('Escape')
+            activations[pattern] = sorted(visited)
+            seen_patterns.add(int(pattern))
+            page.locator('#close-detail').click()
+    assert seen_patterns == set(range(1, 91))
+    assert not errors, errors
+    (OUT / 'catalog-controls.json').write_text(json.dumps(activations, indent=2))
+    print('Catalog inspection:', len(seen_patterns), 'patterns,', sum(map(len, activations.values())), 'demo commands')
+    page.close()
+
+
 def run():
     with sync_playwright() as p:
         browser = p.chromium.launch(executable_path=os.getenv('CHROMIUM_PATH', '/usr/bin/chromium'), headless=True, args=['--no-sandbox'])
+        exercise_catalog(browser)
         context = browser.new_context(viewport={'width': 1440, 'height': 1000}, accept_downloads=True)
         page = context.new_page()
         errors = []
