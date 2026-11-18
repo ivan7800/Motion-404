@@ -14,7 +14,7 @@ test('PRO: navegación enlaza todos los laboratorios existentes',()=>{
   assert.ok(pro.includes(`data-pro-go="${id}"`) || pro.includes(`${id}:`),`Sin enlace ${id}`);
   if(id!=='catalog') assert.ok(ultimate.includes(`PANEL('${id}'`),`Sin panel ${id}`);
  }
- assert.ok(pro.includes('history.replaceState'));
+ assert.ok(pro.includes('history.pushState'));
  assert.ok(pro.includes('window.__MOTION404_PRO_READY__'));
 });
 test('PRO: rediseño no modifica almacenamiento de datos ni recursos existentes',()=>{

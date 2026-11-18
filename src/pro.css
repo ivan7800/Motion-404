@@ -10,3 +10,12 @@ body.light{--bg:#f0f2eb;--surface:#fff;--surface2:#eef2e8;--surface3:#e6ecdf;--l
 @media(max-width:780px){.pro-workspace-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sidebar{width:258px}.pro-index-mark{display:none}.hero-copy{width:100%}.hero-art{opacity:.35}.pro-bottom-banner{flex-direction:column;align-items:flex-start}.pro-stats span{font-size:8px}.pro-workspace-status{padding:5px 7px}.page-content{padding:23px 20px 0}}
 @media(max-width:560px){.pro-workspace-grid{grid-template-columns:1fr}.pro-stats{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:22px}.pro-stats>div:nth-child(3){padding-left:0;border:0}.pro-heading-row h2{font-size:41px}.pro-card-intro{align-items:start;flex-direction:column}.pro-bottom-banner{padding:23px}.pro-bottom-banner button{width:100%}.pro-top-create{padding:9px;font-size:10px}.pro-workspace-grid .pro-preview-art{height:200px}.hero{min-height:330px}.hero-copy{padding:25px}.hero h1{font-size:44px}.hero-meta{gap:8px}.top-actions{gap:5px}}
 @media(prefers-reduced-motion:reduce){.pro-orbit-dot,.pro-effect-core{animation:none}}
+/* The sidebar selects workspaces; component filters live beside the results. */
+#side-nav,.side-group-title,#ultimate-workspace>.ultimate-nav,#ultimate-workspace>.section-kicker,#ultimate-workspace>h2,#ultimate-workspace>p{display:none}
+.sidebar{overflow-y:auto;overscroll-behavior:contain}
+#close-sidebar,#sidebar-backdrop{display:none}
+@media(max-width:780px){
+  #close-sidebar{display:block;align-self:flex-end;margin-bottom:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);padding:8px 12px}
+  #sidebar-backdrop:not([hidden]){display:block;position:fixed;inset:0;z-index:14;border:0;background:#070b11aa}
+  .sidebar{height:100dvh}
+}

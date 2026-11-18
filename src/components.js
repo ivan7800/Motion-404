@@ -12,16 +12,23 @@ const H={
 };
 window.M404_H=H;
 const {esc,btn,pill,heading:hd,row,box,range,tabs}=H;
+function paletteButton(label) {
+  if (window.Motion404?.openPalette) return btn(label,'palette','wide');
+  return `<details class="local-commands"><summary>${label}</summary>
+    <button type="button" class="d-btn" data-act="copy-command-text">Copiar texto</button>
+    <button type="button" class="d-btn" data-act="command-motion">Alternar movimiento reducido</button>
+    <output role="status"></output></details>`;
+}
 window.M404_DEMOS={
 1:(s,o)=>box(hd('Invita a tu equipo','Espacio colaborativo')+row('<input class="d-input" type="email" placeholder="correo@ejemplo.com" data-field="email">'+btn('Invitar','invite'))+`<div class="d-avatars"><span>IR</span><span>AL</span><span>MX</span>${(s.items||[]).map(v=>`<span>${esc(v.slice(0,2))}</span>`).join('')}</div>`+pill((s.items||[]).length?'Invitaciones preparadas: '+s.items.length:'3 personas en el espacio')),
 2:(s)=>box(hd('Modo concentración')+btn(s.on?'Desactivar':'Activar enfoque','toggle','wide')+`<div class="focus-demo ${s.on?'active':''}">UNA TAREA · UNA MENTE</div>`),
 3:(s)=>box(hd('Selecciona tu plan')+tabs(['Free','Plus','Studio'],s)+`<div class="d-figure">${['0 €','12 €','29 €'][s.tab||0]}<small> / mes</small></div>`+pill(['Empezar','Crear','Escalar'][s.tab||0])),
 4:(s)=>box(hd('Límite de caracteres','80 caracteres disponibles')+`<textarea class="d-input d-area" maxlength="80" data-field="text" placeholder="Tu mensaje...">${esc(s.text||'')}</textarea><div class="d-counter">${(s.text||'').length} / 80</div>`),
 5:(s)=>box(hd('Tira de la cuerda')+`<button class="cord-demo ${s.on?'pulled':''}" data-act="toggle" aria-label="Tirar cuerda"><span></span><b></b></button>`+pill(s.on?'Interruptor activado':'Tira hacia abajo')),
-6:(s)=>box(hd('Ayuda contextual')+`<div class="tooltip-demo">${btn('Pasa el cursor','noop','tooltip-trigger')}<span class="tip-content">Ayuda que aparece al pasar</span></div>`+btn('Fijar ayuda','toggle','outline')+(s.on?pill('La ayuda permanece visible') :'')),
+6:(s)=>box(hd('Ayuda contextual')+`<div class="tooltip-demo ${s.on?'pinned':''}"><button type="button" class="d-btn tooltip-trigger" aria-pressed="${s.on}" data-act="toggle">${s.on?'Soltar ayuda':'Fijar ayuda'}</button><span class="tip-content">Puedes fijar esta ayuda con un toque.</span></div>`+pill(s.on?'Ayuda fijada':'Pasa el cursor o enfoca el botón')),
 7:(s)=>box(hd('Lista elástica')+btn(['Niebla','Umbral','Ecos'][s.tab||0]+' ⌄','menu','wide')+(s.open?`<div class="d-popup">${['Niebla','Umbral','Ecos'].map((t,i)=>btn(t,'choose','',''+i)).join('')}</div>`:'')),
 8:(s)=>box(hd('Entrega de archivos')+`<label class="file-zone">↥<strong>${esc(s.file||'Seleccionar archivo')}</strong><small>Solo lectura local · No se envía</small><input data-field="file" type="file" aria-label="Selecciona archivo"></label>`),
-9:()=>box(hd('Botón de comandos')+btn('⌕  Abrir paleta','palette','wide')+pill('⌘ / Ctrl + K')),
+9:()=>box(hd('Botón de comandos')+paletteButton('⌕  Abrir paleta')+pill('⌘ / Ctrl + K')),
 10:(s)=>box(hd('Indicador expandible')+`<button class="island-demo ${s.on?'expanded':''}" data-act="toggle">${s.on?'✦ Sistema conectado · 3 tareas':'● Actividad'}</button>`+pill('Clic para transformar')),
 11:(s)=>box(hd('Menú orgánico')+`<div class="goo-cluster ${s.open?'expanded':''}">${btn('✦','menu','goo-center')}${['⌕','♡','⚙'].map((x,i)=>btn(x,'tab','goo-child goo-'+i,i)).join('')}</div>`+pill('Opción '+((s.tab||0)+1))),
 12:(s)=>box(hd('Deslizador flexible')+`<div class="d-meter"><i style="width:${s.range??35}%"></i></div>`+range(s.range??35)+pill((s.range??35)+'% intensidad')),
@@ -37,10 +44,10 @@ window.M404_DEMOS={
 22:(s)=>box(hd('Forma gelatinosa')+`<button class="goo-blob ${s.on?'alternate':''}" data-act="toggle" aria-label="Cambiar forma">✦</button>`+pill('Pulsa para alterar')),
 23:(s,o)=>box(hd('Texto encriptado')+`<div class="scramble-text">${esc(s.text||o.text)}</div>`+btn('Descifrar','scramble')),
 24:(s)=>box(hd('Lectura asistida')+`<div class="read-along">${'La puerta nunca estuvo cerrada'.split(' ').map((w,i)=>`<span class="${i===s.step%5?'current':''}">${w}</span>`).join(' ')}</div>`+btn('Siguiente palabra','next')),
-25:()=>box(hd('Enlaces en movimiento')+`<div class="roll-links"><a href="#catalogo">EXPLORAR ↗</a><a href="#catalogo">CREAR ↗</a><a href="#catalogo">DESCUBRIR ↗</a></div>`),
+25:(s)=>box(hd('Enlaces en movimiento')+`<div class="roll-links">${['Explorar','Crear','Descubrir'].map((label,i)=>`<button type="button" data-act="tab" data-val="${i}" aria-pressed="${s.tab===i}">${label} ↗</button>`).join('')}</div>`+pill(['Colección de patrones','Mesa de composición','Selección destacada'][s.tab])),
 26:(s)=>box(hd('Prompt para IA','Interfaz de ejemplo; sin conexión a modelos')+`<textarea class="d-input d-area" data-field="text" placeholder="¿Qué quieres construir?">${esc(s.text||'')}</textarea>`+btn('Enviar demo ↗','done')+(s.done?pill('Prompt local recibido'):'')),
 27:(s)=>box(hd('Respuesta progresiva','Simulación local, sin IA')+`<div class="stream-box">${esc(s.text||'Pulsa iniciar para ver la demostración.')}${s.loading?'▌':''}</div>`+btn('Iniciar streaming','stream')),
-28:(s)=>box(hd('Sugerencia fantasma')+`<input class="d-input" data-field="suggestion" value="${esc(s.text||'')}" placeholder="Escribe algo..."><small class="d-muted">Tab ↹ para completar: «en el abismo»</small>`),
+28:(s)=>box(hd('Sugerencia fantasma')+`<input class="d-input" data-field="suggestion" value="${esc(s.text||'')}" placeholder="Escribe algo..."><small class="d-muted">Flecha → al final para completar: «en el abismo»</small>`),
 };
 Object.assign(window.M404_DEMOS,{
 29:()=>box(hd('Procesando…')+'<div class="thinking-dots"><i></i><i></i><i></i></div>'+pill('Animación de espera')),
@@ -58,7 +65,7 @@ Object.assign(window.M404_DEMOS,{
 41:(s)=>box(hd('Control segmentado')+tabs(['Claro','Oscuro','Auto'],s)+pill('Tema '+['claro','oscuro','automático'][s.tab||0])),
 42:(s)=>box(hd('Barra plegable')+`<div class="mini-sidebar ${s.on?'collapsed':''}"><button data-act="toggle">☰</button><span>⌂ <b>Inicio</b></span><span>⌕ <b>Buscar</b></span><span>⚙ <b>Ajustes</b></span></div>`),
 43:(s)=>box(hd('Paginación flexible')+`<div class="d-figure">${s.step%5+1}<small> / 5</small></div><div class="page-dots">${Array.from({length:5},(_,i)=>btn('','setstep',i===s.step%5?'active':'',i)).join('')}</div>`+row(btn('←','prev','outline')+btn('→','next'))),
-44:()=>box(hd('Paleta de comandos')+btn('⌕  Buscar una acción','palette','wide')+pill('⌘ / Ctrl + K')),
+44:()=>box(hd('Paleta de comandos')+paletteButton('⌕  Buscar una acción')+pill('⌘ / Ctrl + K')),
 45:(s)=>box(hd('Pasos progresivos')+`<div class="step-flow">${['Inicio','Diseño','Test','Fin'].map((v,i)=>`<div class="${i<=s.step%4?'complete':''}"><b>${i+1}</b><small>${v}</small></div>`).join('')}</div>`+row(btn('← Atrás','prev','outline')+btn('Avanzar →','step'))),
 46:(s)=>box(hd('Verificación de 6 dígitos','Sin servicio externo')+`<div class="otp-digits">${Array.from({length:6},(_,i)=>`<input maxlength="1" inputmode="numeric" data-otp="${i}" aria-label="Dígito ${i+1}" value="${esc((s.text||'')[i]||'')}">`).join('')}</div>`+pill((s.text||'').length===6?'Código completo':'Introduce seis cifras')),
 47:(s)=>box(hd('Conmutador')+`<button role="switch" aria-checked="${!!s.on}" class="toggle-demo ${s.on?'active':''}" data-act="toggle"><i></i></button>`+pill(s.on?'Activado':'Desactivado')),
@@ -100,7 +107,7 @@ Object.assign(window.M404_DEMOS,{
 81:(s)=>box(hd('Popover de opiniones')+btn('Dar opinión','menu')+(s.open?`<div class="feedback-popup">${['👍','💜','✨'].map(x=>btn(x,'feedback','outline')).join('')}<small>¿Te ha gustado?</small></div>`:'')+(s.done?pill('¡Gracias por participar!'):'')),
 82:(s)=>box(hd('Lista de tareas')+['Crear la escena','Añadir la animación','Revisar contraste','Comprobar móvil'].map((v,i)=>`<label class="check-line"><input data-check="${i}" type="checkbox" ${s.checks?.[i]?'checked':''}>${v}</label>`).join('')+pill((s.checks||[]).filter(Boolean).length+' tareas completadas')),
 83:(s)=>box(hd('Ambiente sintetizado','Tono original generado localmente')+`<div class="audio-bars ${s.on?'awake':''}">${[1,2,3,4,5,6,7,8].map(i=>`<i style="animation-delay:${i*70}ms"></i>`).join('')}</div>`+btn(s.on?'■ Silenciar':'▶ Activar ambiente','music')),
-84:()=>box(hd('Lanzador de comandos')+btn('⌕  Command 404','palette','wide')+pill('Busca una acción rápida')),
+84:()=>box(hd('Lanzador de comandos')+paletteButton('⌕  Command 404')+pill('Busca una acción rápida')),
 });
 Object.assign(window.M404_DEMOS, {
 85: (s,o)=>box(`<button type="button" class="spotlight-card ${s.on?'is-lit':''}" data-act="toggle" aria-pressed="${s.on}"><span class="spotlight-grid" aria-hidden="true"></span><small>ARCHIVO / 404</small><strong>${esc(o.text)}</strong><span>${s.on?'✓ Fragmento descubierto':'Explora la luz · pulsa para revelar'}</span></button>`),
