@@ -22,6 +22,27 @@ def run():
         page.goto(URL + '#catalog')
         expect(page.locator('#result-count')).to_contain_text('90 componentes')
         expect(page.locator('.component-card')).to_have_count(12)
+        # Navigate through the normal controls. Header, active panel and URL agree.
+        menu = page.locator('.pro-suite-nav')
+        for key in ['original', 'motion', 'design', 'effects', 'game', 'resources', 'backups', 'timeline']:
+            link = menu.locator(f'[data-pro-go="{key}"]')
+            link.click()
+            expect(page.locator(f'.ultimate-panel.active[data-panel="{key}"]')).to_be_visible()
+            expect(page.locator('#pro-breadcrumb')).to_have_text(link.locator('span').nth(1).inner_text())
+            assert page.url.endswith('#' + key)
+        page.locator('[data-m52-jump="editor"]').click()
+        expect(menu.locator('[data-pro-go="editor"]')).to_have_attribute('aria-current', 'page')
+        assert page.url.endswith('#editor')
+        page.go_back()
+        expect(page.locator('[data-panel="timeline"]')).to_be_visible()
+        page.go_forward()
+        expect(page.locator('[data-panel="editor"]')).to_be_visible()
+        menu.locator('[data-pro-go="catalog"]').click()
+        before = page.evaluate("localStorage.getItem('motion404-ultimate-v4-projects')")
+        page.locator('#search').focus()
+        page.keyboard.press('Tab')
+        page.keyboard.press('Delete')
+        assert page.evaluate("localStorage.getItem('motion404-ultimate-v4-projects')") == before
         # Every catalog item has a working renderer in a real DOM.
         assert page.evaluate('''() => {
           const host=document.createElement('div');document.body.append(host);
@@ -162,6 +183,14 @@ def run():
         mobile = mobile_context.new_page()
         mobile.on('pageerror', lambda e: errors.append(str(e)))
         mobile.goto(URL + '#catalog')
+        await_drawer = mobile.locator('#toggle-sidebar')
+        await_drawer.tap()
+        expect(await_drawer).to_have_attribute('aria-expanded', 'true')
+        mobile.locator('.pro-suite-nav [data-pro-go="backups"]').tap()
+        expect(mobile.locator('[data-panel="backups"]')).to_be_visible()
+        expect(await_drawer).to_have_attribute('aria-expanded', 'false')
+        await_drawer.tap()
+        mobile.locator('.pro-suite-nav [data-pro-go="catalog"]').tap()
         mobile.locator('#library-new').click()
         mobile.locator('#theme-toggle').click()
         assert mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1')

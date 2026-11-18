@@ -55,6 +55,13 @@ function action(root,act,value){const s=state(root);let render=true;
   const timer=setInterval(()=>{if(!root.isConnected){clearInterval(timer);return};el.textContent=[...message].map((c,k)=>k<=i/2?c:chars[Math.random()*chars.length|0]).join('');i++;if(i>=message.length*2+2){clearInterval(timer);el.textContent=message}},38);
   render=false;break;
  }
+ case 'copy-command-text':
+  copy(opts(root).text).then(ok=>{root.querySelector('.local-commands output').textContent=ok?'Texto copiado':'Copia no disponible'});
+  render=false;break;
+ case 'command-motion':
+  root.dataset.reduced=String(root.dataset.reduced!=='true');
+  root.querySelector('.local-commands output').textContent=root.dataset.reduced==='true'?'Movimiento reducido':'Movimiento normal';
+  render=false;break;
  case 'palette':global.Motion404?.openPalette?.();render=false;break;
  case 'allow':s.message='Permiso simulado concedido';break;
  case 'deny':s.message='Permiso simulado denegado';break;
@@ -83,7 +90,7 @@ function bind(target=document){if(boundTargets.has(target))return;boundTargets.a
  target.addEventListener('keydown',e=>{const node=e.target,root=node.closest?.('.demo-root');if(!root)return;const s=state(root);
   if((e.key===' '||e.key==='Enter')&&node.matches('[data-hold]')){e.preventDefault();if(!e.repeat)startHold(root,node)}
   if(e.key==='Enter'&&node.dataset.field==='tag'){e.preventDefault();action(root,'tag')}
-  if(e.key==='Tab'&&node.dataset.field==='suggestion'&&node.value.trim()){e.preventDefault();s.text=node.value+' en el abismo';node.value=s.text}
+  if(e.key==='ArrowRight'&&node.dataset.field==='suggestion'&&node.selectionStart===node.value.length&&node.value.trim()&&!node.value.endsWith(' en el abismo')){e.preventDefault();s.text=node.value+' en el abismo';node.value=s.text}
   if(e.key==='Backspace'&&node.hasAttribute('data-otp')&&!node.value){const i=Number(node.dataset.otp);if(i>0)root.querySelector(`[data-otp="${i-1}"]`)?.focus()}
  });
  target.addEventListener('pointerdown',e=>{const node=e.target,root=node.closest?.('.demo-root');if(!root)return;const s=state(root),hold=node.closest('[data-hold]');

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 function setup({offline=false}={}){
- const events={},deleted=[],cacheName='motion-404-ultimate-v5.5-rc1';
+ const events={},deleted=[],cacheName='motion-404-ultimate-v5.5-rc1-nav2';
  const cached={status:200,type:'basic',text:async()=>'<html>offline</html>'};
  const store=new Map([['http://test.local/app/index.html',cached]]);
  const cache={addAll:async()=>{},match:async key=>store.get(typeof key==='string'?(key.startsWith('./')?'http://test.local/app/'+key.slice(2):key):key.url),put:async(req,res)=>{store.set(req.url,res)}};
