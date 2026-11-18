@@ -219,6 +219,13 @@ def run():
         for id in range(85, 91):
             expect(viewer.locator(f'.demo-root[data-demo-id="{id}"]')).to_have_count(1)
         viewer.close()
+        # Each sequencer track uses its own timing, including on repeated playback.
+        restored.locator('.pro-suite-nav [data-pro-go="timeline"]').click()
+        restored.locator('#u-title-delay').fill('830')
+        restored.locator('#u-play').click()
+        timings = restored.locator('#u-anim-target [data-track]').evaluate_all(
+            'els => els.map(el => el.getAnimations()[0].effect.getTiming().delay)')
+        assert timings == [0, 830, 440], timings
         # Touch viewport, mobile dialog, light theme and system reduced motion.
         mobile_context = browser.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True, reduced_motion='reduce')
         mobile = mobile_context.new_page()
@@ -232,6 +239,11 @@ def run():
         expect(await_drawer).to_have_attribute('aria-expanded', 'false')
         await_drawer.tap()
         mobile.locator('.pro-suite-nav [data-pro-go="catalog"]').tap()
+        for destination in ['overview','editor','motion','design','timeline','effects','game','resources','original','catalog']:
+            await_drawer.tap()
+            mobile.locator(f'.pro-suite-nav [data-pro-go="{destination}"]').tap()
+            assert mobile.url.endswith('#' + destination) if destination != 'overview' else not mobile.url.endswith('#catalog')
+            assert mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1'), destination
         mobile.locator('#library-new').click()
         mobile.locator('#theme-toggle').click()
         assert mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1')

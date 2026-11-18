@@ -21,3 +21,7 @@ body.light{--bg:#f0f2eb;--surface:#fff;--surface2:#eef2e8;--surface3:#e6ecdf;--l
 }
 
 .pro-menu-heading { margin: 12px 12px 2px; font-size: 11px; color: inherit; opacity: .8; }
+
+#u-anim-target { display:grid; gap:.5rem; text-align:center; }
+#u-anim-target strong { font-size:1.35rem; }
+#u-anim-target [data-track="cta"] { background:#9678df; color:#0d1020; padding:.45em 1em; border-radius:.7em; }
