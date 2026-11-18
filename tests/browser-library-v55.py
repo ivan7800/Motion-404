@@ -52,6 +52,9 @@ def run():
         page.locator('#library-new').click()
         expect(page.locator('.component-card')).to_have_count(6)
         page.screenshot(path=str(OUT / 'library-desktop.png'), full_page=True)
+        page.locator('#layout-list').click()
+        expect(page.locator('.component-card').first).to_have_css('display', 'grid')
+        page.locator('#layout-grid').click()
         # Original interactions, including continuous range updates and native details.
         page.locator('#card-demo-85 button').click()
         expect(page.locator('#card-demo-85 button')).to_have_attribute('aria-pressed', 'true')
@@ -69,6 +72,12 @@ def run():
         assert page.evaluate("document.activeElement.dataset.act") == 'increment'
         # Inspector, persistent variant, comparison and safe source display.
         page.locator('[data-inspect="85"]').click()
+        pane = page.locator('#detail-preview').locator('..')
+        desktop_width = pane.bounding_box()['width']
+        page.locator('[data-device="mobile"]').click()
+        assert pane.bounding_box()['width'] <= 280 < desktop_width
+        page.locator('[data-device="desktop"]').click()
+        assert pane.bounding_box()['width'] == desktop_width
         page.locator('[data-preset="cinema"]').click()
         text = '</script><script>window.UNSAFE=1</script>'
         page.locator('#custom-text').fill(text)
