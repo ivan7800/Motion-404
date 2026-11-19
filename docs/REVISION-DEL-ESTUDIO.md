@@ -1,6 +1,6 @@
 # Revisión del estudio
 
-Base examinada: `9547a8c`, versión 5.5.0 RC1. Las 70 pruebas de Node pasaron antes de los cambios. La aplicación es estática; el paso de generación recompone los recursos de los HTML autónomos.
+Base examinada: `b354c64`, versión 5.5.0 RC1. Las 71 pruebas de Node pasaron antes de esta revisión. La aplicación es estática; el paso de generación recompone los recursos de los HTML autónomos.
 
 | Dónde y cómo repetir | Qué ocurría y por qué | Resultado esperado tras la corrección |
 | --- | --- | --- |
@@ -14,4 +14,4 @@ Base examinada: `9547a8c`, versión 5.5.0 RC1. Las 70 pruebas de Node pasaron an
 
 La organización del menú es una decisión de producto. Biblioteca y Compositor quedan en Crear. El secuenciador conserva su exportación independiente y el compositor mantiene la edición por fotogramas. Recursos, copias y archivo histórico quedan al final.
 
-Para repetir la validación automatizada, ejecutar `npm run check` y los flujos de GitHub Actions «Live library browser QA» y «Motion 404 Ultimate v5.4 + Original v2 Browser QA». La prueba de biblioteca emplea Chromium, un perfil limpio, descargas reales y una ventana táctil emulada. El test de contenido del portapapeles usa una captura de las llamadas a copiar. Los destinos de terceros pueden cambiar con independencia de esta publicación.
+Para repetir la validación automatizada, ejecutar `npm run check`, `npm run qa:device` y los flujos de GitHub Actions «Live library browser QA» y «Motion 404 Ultimate v5.5 + Original v2 Browser QA». La prueba de biblioteca emplea Chromium, un perfil limpio, descargas reales y una ventana táctil emulada. El test de contenido del portapapeles usa una captura de las llamadas a copiar. Los destinos de terceros pueden cambiar con independencia de esta publicación.
