@@ -46,7 +46,7 @@ window.M404_DEMOS={
 19:(s)=>box(hd('Actualizar al instante')+`<div class="refresh-symbol ${s.loading?'spin':''}">↻</div>`+btn('Actualizar','refresh')+pill('Actualizaciones: '+s.step)),
 20:(s)=>box(hd('Palabras rotatorias')+`<div class="d-figure animated-word">${['NIEBLA','UMBRAL','ABISMO','ECO'][s.step%4||0]}</div>`+btn('Cambiar ↻','next')),
 21:()=>box(hd('Tipografía variable')+`<div class="weight-wave">${[...'NOCTURNE'].map((x,i)=>`<span style="animation-delay:${i*90}ms">${x}</span>`).join('')}</div>`+pill('Animación CSS continua')),
-22:(s)=>box(hd('Forma gelatinosa')+`<button class="goo-blob ${s.on?'alternate':''}" data-act="toggle" aria-label="Cambiar forma">✦</button>`+pill('Pulsa para alterar')),
+22:(s)=>box(hd('Forma gelatinosa')+`<button class="goo-blob ${s.on?'alternate':''}" data-act="toggle" aria-label="Cambiar forma"><span aria-hidden="true">✦</span></button>`+pill('Pulsa para alterar')),
 23:(s,o)=>box(hd('Texto encriptado')+`<div class="scramble-text">${esc(s.text||o.text)}</div>`+btn('Descifrar','scramble')),
 24:(s)=>box(hd('Lectura asistida')+`<div class="read-along">${'La puerta nunca estuvo cerrada'.split(' ').map((w,i)=>`<span class="${i===s.step%5?'current':''}">${w}</span>`).join(' ')}</div>`+btn('Siguiente palabra','next')),
 25:(s)=>box(hd('Enlaces en movimiento')+`<div class="roll-links">${['Explorar','Crear','Descubrir'].map((label,i)=>`<button type="button" data-act="tab" data-val="${i}" aria-pressed="${s.tab===i}">${label} ↗</button>`).join('')}</div>`+pill(['Colección de patrones','Mesa de composición','Selección destacada'][s.tab])),
