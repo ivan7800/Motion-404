@@ -41,6 +41,15 @@ def exercise_catalog(browser):
                 buttons.nth(index).click(timeout=4500)
                 if page.locator('#command-overlay').is_visible():
                     page.keyboard.press('Escape')
+            if pattern == '11':
+                trigger = demo.get_by_role('button', name='Opciones')
+                for i, label in enumerate(['Buscar', 'Favoritos', 'Ajustes']):
+                    expect(trigger).to_have_attribute('aria-expanded', 'false')
+                    expect(demo.locator('.goo-child')).to_have_count(0)
+                    trigger.click()
+                    demo.get_by_role('button', name=label).click()
+                    expect(demo).to_contain_text(f'Opción {i+1}')
+                    visited.add(('tab', str(i)))
             activations[pattern] = sorted(visited)
             seen_patterns.add(int(pattern))
             page.locator('#close-detail').click()
