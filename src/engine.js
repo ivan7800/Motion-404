@@ -10,7 +10,11 @@ function paint(root){if(!root)return;const id=Number(root.dataset.demoId),fn=glo
  const active=root.getRootNode().activeElement, controls=[...body.querySelectorAll('button,input,select,textarea,summary,a[href]')], focusIndex=controls.indexOf(active);
  body.innerHTML=fn(state(root),opts(root));
  for(const animation of root.getAnimations?.({subtree:true})||[])animation.playbackRate=opts(root).speed;
- if(focusIndex>=0)body.querySelectorAll('button,input,select,textarea,summary,a[href]')[focusIndex]?.focus({preventScroll:true});
+ if(focusIndex>=0){
+   const nextControls=body.querySelectorAll('button,input,select,textarea,summary,a[href]');
+   const target=nextControls[focusIndex] || nextControls[0];
+   target?.focus({preventScroll:true});
+ }
  }}
 function mount(el,id,options={}){
  const numericId=Number(id);if(!global.M404_DEMOS?.[numericId])throw Error('ID no soportado '+id);

@@ -48,6 +48,7 @@ def exercise_catalog(browser):
                     expect(demo.locator('.goo-child')).to_have_count(0)
                     trigger.click()
                     demo.get_by_role('button', name=label).click()
+                    expect(trigger).to_be_focused()
                     expect(demo).to_contain_text(f'Opción {i+1}')
                     visited.add(('tab', str(i)))
             activations[pattern] = sorted(visited)
