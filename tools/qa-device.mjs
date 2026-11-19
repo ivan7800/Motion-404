@@ -20,7 +20,9 @@ try{
  const source=await stat(path.join(root,'original-runtime','index.html'));
  if(source.isFile()){
    originalReady=true;
-   resources.push(...['./original-runtime/index.html','./original-runtime/motion-v2.0.2.js','./original-runtime/motion-v2.0.2.integrated.js','./original-runtime/motion-v2.css','./original-runtime/ultimate-bridge.js','./original-runtime/sw.js']);
+   // The historical DOM runs from its original runtime files. The bridge is
+   // loaded by the host when available and is not a generated replacement.
+   resources.push(...['./original-runtime/index.html','./original-runtime/motion-v2.0.2.js','./original-runtime/motion-v2.css','./original-runtime/ultimate-bridge.js','./original-runtime/sw.js']);
  }
 }catch{}
 let passed=0;
@@ -82,4 +84,4 @@ try{await checkRuntime('Python 3',python,pyargs)}catch(err){if(err.code==='ENOEN
 console.log(`\nPASS ${passed} comprobaciones locales. Plataforma: ${process.platform} / ${process.arch}.`);
 console.log('RUNTIME HISTÓRICO:',originalReady?'PRESENTE — archivos críticos servidos por HTTP':'NO IMPORTADO — pruebas históricas bloqueadas');
 console.log('NO CERTIFICA: doble clic del BAT, Safari/iPhone, PWA instalada, SW offline ni navegación Chromium HTTP.');
-console.log('Para terminar QA real, completa los pasos de docs/QA-DISPOSITIVOS-v5.4.md en cada dispositivo.');
+console.log('Para terminar QA real, completa los pasos de docs/QA-DISPOSITIVOS-v5.5.md en cada dispositivo.');
