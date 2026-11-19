@@ -18,7 +18,7 @@ Para regenerar los recursos autocontenidos tras editar motor/componentes/CSS: `n
 
 **La versión web del repositorio incorpora físicamente Motion-404 v2.0.2 en `/original-runtime/`**, con su JavaScript, CSS, recursos y pruebas originales conservados. Ultimate se publica en `/` y muestra el DOM original dentro de un panel del mismo origen. El código histórico permanece independiente; no se ha refactorizado a un único DOM.
 
-**No se ha certificado hardware Windows 11, Linux Mint ni iPhone/Safari.** Ver `docs/QA-v5.4.md` y `docs/QA-DISPOSITIVOS-v5.4.md`. La versión web se publica como **RC** por petición expresa, con pruebas físicas de Windows 11, Linux Mint y Safari/iPhone todavía pendientes.
+**No se ha certificado hardware Windows 11, Linux Mint ni iPhone/Safari.** Ver `docs/QA-v5.5.md` y `docs/QA-DISPOSITIVOS-v5.5.md`. La versión web se publica como **RC** por petición expresa, con pruebas físicas de Windows 11, Linux Mint y Safari/iPhone todavía pendientes.
 
 ## Arranque del estudio
 
@@ -55,7 +55,7 @@ El importador valida la estructura v2.0.2, copia íntegramente los archivos del 
 ## Pruebas
 
 ```bash
-npm run check                     # 66 pruebas Node + sintaxis
+npm run check                     # 71 pruebas Node + sintaxis
 npm run qa:device                 # HTTP, manifiesto, rutas, MIME y PWA preflight
 python3 tests/browser-v4-synthetic.py
 python3 tests/browser-v52.py
@@ -77,11 +77,11 @@ El estudio no escribe en la clave histórica, salvo que uses explícitamente la 
 
 Node 20+ o Python 3 para el servidor local. Git y conexión para incorporar el original desde GitHub. Todas las funciones de Ultimate siguen disponibles sin el original importado. En el despliegue GitHub Pages, el original ya está disponible en `/original-runtime/`.
 
-Consulta `docs/QA-v5.4.md` para los resultados reales y los bloqueantes.
+Consulta `docs/QA-v5.5.md` para los resultados reales y los bloqueantes.
 
 ## URLs publicadas
 
 - Ultimate Studio: `https://ivan7800.github.io/Motion-404/`
 - Motion-404 v2.0.2 original: `https://ivan7800.github.io/Motion-404/original-runtime/`
 
-La suite histórica ahora se ejecuta desde `.github/workflows/v202-browser-qa.yml` sobre el subdirectorio original. Las pruebas físicas siguen sin certificarse.
+La suite histórica ahora se ejecuta desde `.github/workflows/v202-browser-qa.yml` sobre el subdirectorio original. Las pruebas físicas siguen sin certificarse. El runtime histórico se mantiene aislado para proteger compatibilidad y datos, y se conecta mediante el puente de origen controlado. La integración progresiva comparte generador, presets y migraciones sin fusionar todavía el DOM.
