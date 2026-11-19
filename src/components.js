@@ -30,7 +30,12 @@ window.M404_DEMOS={
 8:(s)=>box(hd('Entrega de archivos')+`<label class="file-zone">↥<strong>${esc(s.file||'Seleccionar archivo')}</strong><small>Solo lectura local · No se envía</small><input data-field="file" type="file" aria-label="Selecciona archivo"></label>`),
 9:()=>box(hd('Botón de comandos')+paletteButton('⌕  Abrir paleta')+pill('⌘ / Ctrl + K')),
 10:(s)=>box(hd('Indicador expandible')+`<button class="island-demo ${s.on?'expanded':''}" data-act="toggle">${s.on?'✦ Sistema conectado · 3 tareas':'● Actividad'}</button>`+pill('Clic para transformar')),
-11:(s)=>box(hd('Menú orgánico')+`<div class="goo-cluster ${s.open?'expanded':''}">${btn('✦','menu','goo-center')}${['⌕','♡','⚙'].map((x,i)=>btn(x,'tab','goo-child goo-'+i,i)).join('')}</div>`+pill('Opción '+((s.tab||0)+1))),
+11:(s)=>box(hd('Menú orgánico')+`<div class="goo-cluster ${s.open?'expanded':''}">
+  <button type="button" class="d-btn goo-center" data-act="menu" aria-label="Opciones" aria-expanded="${!!s.open}">✦</button>
+  ${s.open ? ['Buscar','Favoritos','Ajustes'].map((label,i)=>
+    `<button type="button" class="d-btn goo-child goo-${i}" data-act="tab" data-val="${i}" aria-label="${label}">${['⌕','♡','⚙'][i]}</button>`
+  ).join('') : ''}
+</div>`+pill('Opción '+((s.tab||0)+1))),
 12:(s)=>box(hd('Deslizador flexible')+`<div class="d-meter"><i style="width:${s.range??35}%"></i></div>`+range(s.range??35)+pill((s.range??35)+'% intensidad')),
 13:(s)=>box(hd('Mantén para publicar','1,2 segundos para confirmar')+`<button class="d-btn wide hold-btn" data-hold="publish" style="--hold:0%">${s.done?'✓ Publicado (demo)':'Mantén pulsado'}</button>`+pill('Sin publicación real')),
 14:(s)=>box(hd('Cartas deslizantes')+`<div class="swipe-deck" data-act="next"><i></i><i></i><strong>${['01 · La niebla','02 · La señal','03 · El eco'][s.step%3||0]}</strong></div>`+row(btn('←','prev','outline')+btn('Siguiente →','next'))),
@@ -41,7 +46,7 @@ window.M404_DEMOS={
 19:(s)=>box(hd('Actualizar al instante')+`<div class="refresh-symbol ${s.loading?'spin':''}">↻</div>`+btn('Actualizar','refresh')+pill('Actualizaciones: '+s.step)),
 20:(s)=>box(hd('Palabras rotatorias')+`<div class="d-figure animated-word">${['NIEBLA','UMBRAL','ABISMO','ECO'][s.step%4||0]}</div>`+btn('Cambiar ↻','next')),
 21:()=>box(hd('Tipografía variable')+`<div class="weight-wave">${[...'NOCTURNE'].map((x,i)=>`<span style="animation-delay:${i*90}ms">${x}</span>`).join('')}</div>`+pill('Animación CSS continua')),
-22:(s)=>box(hd('Forma gelatinosa')+`<button class="goo-blob ${s.on?'alternate':''}" data-act="toggle" aria-label="Cambiar forma">✦</button>`+pill('Pulsa para alterar')),
+22:(s)=>box(hd('Forma gelatinosa')+`<button class="goo-blob ${s.on?'alternate':''}" data-act="toggle" aria-label="Cambiar forma"><span aria-hidden="true">✦</span></button>`+pill('Pulsa para alterar')),
 23:(s,o)=>box(hd('Texto encriptado')+`<div class="scramble-text">${esc(s.text||o.text)}</div>`+btn('Descifrar','scramble')),
 24:(s)=>box(hd('Lectura asistida')+`<div class="read-along">${'La puerta nunca estuvo cerrada'.split(' ').map((w,i)=>`<span class="${i===s.step%5?'current':''}">${w}</span>`).join(' ')}</div>`+btn('Siguiente palabra','next')),
 25:(s)=>box(hd('Enlaces en movimiento')+`<div class="roll-links">${['Explorar','Crear','Descubrir'].map((label,i)=>`<button type="button" data-act="tab" data-val="${i}" aria-pressed="${s.tab===i}">${label} ↗</button>`).join('')}</div>`+pill(['Colección de patrones','Mesa de composición','Selección destacada'][s.tab])),

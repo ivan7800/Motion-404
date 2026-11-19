@@ -7,7 +7,7 @@ import {execFileSync} from 'node:child_process';
 import {createProject,makeBlock,normalizeProject,normalizeLibrary,renderBlocks,projectCSS,projectHTML,projectJS,reactComponent,KEY,KINDS} from '../src/editor-core.mjs';
 import {createZip} from '../src/zip-utils.mjs';
 import {fromMotionDNA,fromLegacySystem,withDesignTokens,withTimeline,withGameHUD} from '../src/bridges.mjs';
-import {validateLegacyV2,mergeLegacyV2,validateV3,classifyBackup} from '../src/legacy-migration.mjs';
+import {validateLegacyV2,mergeLegacyV2,validateV3,classifyBackup,mergeStudioArchives} from '../src/legacy-migration.mjs';
 const legacyData={theme:'dark',saved:[{id:'sys-1',project:'A',created:'2026-09-13T00:00:00Z',input:{experience:'Landing page',industry:'Arquitectura',stack:'HTML + CSS + JS',visual:'Brutalismo editorial',dna:'cinematic',pace:'calm',depth:'flat',intensity:3,features:['microinteractions'],context:''},profile:{label:'Cinematic',easing:'linear'},risk:{perf:10,cog:10,a11y:10,total:10},qa:{score:100,checks:[]},timeline:[],recommendations:[],spec:'ok'}]};
 test('v4 modelo: 13 componentes, proyecto y normalización',()=>{assert.equal(KINDS.length,13);const p=createProject('Proyecto 404');assert.equal(p.schema,4);assert.equal(p.blocks.length,4);assert.deepEqual(normalizeProject(p).blocks.map(x=>x.kind),['nav','hero','card','button']);assert.ok(KEY.includes('v4'));});
 test('v4 datos maliciosos se neutralizan y URL javascript se descarta',()=>{const p=createProject('<img src=x onerror=alert(1)>');p.blocks=[makeBlock('button',{text:'<script>alert(1)</script>',link:'javascript:alert(1)',duration:Infinity,accent:'red'})];const html=projectHTML(p);assert.ok(!html.includes('<script>alert(1)</script>'));assert.match(html,/&lt;script&gt;/);assert.ok(!html.includes('javascript:alert'));assert.ok(!html.includes('onerror=alert(1)>'));assert.equal(normalizeProject(p).blocks[0].link,'');assert.equal(normalizeProject(p).blocks[0].accent,'#b5e17e');});
@@ -27,3 +27,13 @@ test('puentes Motion DNA + Design Studio + Timeline + Game UI comparten un proye
 });
 test('sistema original importado se convierte sin mutar los datos v2',()=>{const raw=JSON.stringify(legacyData),p=fromLegacySystem(legacyData.saved[0]);assert.equal(p.name,'A');assert.equal(p.schema,4);assert.equal(JSON.stringify(legacyData),raw);assert.equal(p.blocks.length,5)});
 test('ZIP exportado de un patrón incluye el runtime de montaje',()=>{const p=createProject('Pattern');p.blocks.push(makeBlock('pattern',{patternId:1}));assert.match(projectJS(p),/Motion404\?\.mount/);});
+
+test('studio restore retains previous archives and repeated imports are idempotent',()=>{
+ const archive = designs => ({app:'motion404-ultimate',version:3,data:{motion:[],designs,timeline:[],games:[],resourceFavorites:[]}});
+ const old = archive([{id:'a',radius:4}]), newer = archive([{id:'a',radius:12}]);
+ const merged = mergeStudioArchives(old,newer,old);
+ assert.deepEqual(merged.data.designs,[...old.data.designs,...newer.data.designs]);
+ assert.deepEqual(mergeStudioArchives(merged,old,newer),merged);
+ assert.deepEqual(mergeStudioArchives(null,null,old),old);
+ assert.throws(()=>mergeStudioArchives(old,{version:2}));
+});

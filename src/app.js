@@ -43,8 +43,8 @@ function preview(){if(ui.selected===null)return;const c=previewConfig(ui.selecte
 function renderSwatches(){const focused=document.activeElement?.dataset.swatch;const c=config(ui.selected);$('color-options').innerHTML=colors.map(v=>`<button class="swatch ${v===c.accent?'selected':''}" style="--swatch:${v}" data-swatch="${v}" title="Color ${v}" aria-label="Aplicar color ${v}" aria-pressed="${v===c.accent}"></button>`).join('');if(focused)$('color-options').querySelector(`[data-swatch="${focused}"]`)?.focus()}
 function setConfig(key,value){if(ui.selected===null)return;ui.configs[ui.selected]={...config(ui.selected),[key]:value};save();if(key==='accent')renderSwatches();preview()}
 function download(blob,name){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2500)}
-function integration(id){const c=config(id);return `<!-- MOTION-404-STUDIO · patrón #${id} · código propio -->\n<link rel="stylesheet" href="./src/style.css">\n<div id="componente-404"></div>\n<script src="./src/components.js"><\/script>\n<script src="./src/engine.js"><\/script>\n<script>Motion404.mount(document.getElementById('componente-404'), ${id}, ${JSON.stringify(c).replace(/</g,'\\u003c')});<\/script>`}
-function standalone(id){const c=config(id),source=window.M404_EXPORT;if(!source)throw Error('El exportador no está cargado');const item=catalog.find(x=>x.id===id);const escapeScript=s=>s.replace(/<\/script/gi,'<\\/script');
+function integration(id){const c=previewConfig(id);return `<!-- MOTION-404-STUDIO · patrón #${id} · código propio -->\n<link rel="stylesheet" href="./src/style.css">\n<div id="componente-404"></div>\n<script src="./src/components.js"><\/script>\n<script src="./src/engine.js"><\/script>\n<script>Motion404.mount(document.getElementById('componente-404'), ${id}, ${JSON.stringify(c).replace(/</g,'\\u003c')});<\/script>`}
+function standalone(id){const c=previewConfig(id),source=window.M404_EXPORT;if(!source)throw Error('El exportador no está cargado');const item=catalog.find(x=>x.id===id);const escapeScript=s=>s.replace(/<\/script/gi,'<\\/script');
  return `<!doctype html>\n<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MOTION-404 · ${safe(item.name)}</title><style>${source.css}</style><style>body{min-height:100vh;display:grid;place-items:center;background:#090b11;margin:0}.demo-root{width:min(90vw,480px);min-height:320px}</style></head><body><div id="preview"></div><script>${escapeScript(source.components)}<\/script><script>${escapeScript(source.engine)}<\/script><script>Motion404.mount(document.getElementById('preview'),${id},${JSON.stringify(c).replace(/</g,'\\u003c')});<\/script></body></html>`;
 }
 function exportSelected(){if(ui.selected===null)return;const item=catalog.find(x=>x.id===ui.selected);try{download(new Blob([standalone(item.id)],{type:'text/html;charset=utf-8'}),`MOTION404-${item.slug}.html`);notify('HTML autónomo creado')}catch(err){notify('Error al exportar: '+err.message)}}
@@ -101,6 +101,19 @@ function refreshDetailControls(){const c=config(ui.selected);$('custom-text').va
 function syncDetailSave(){if(ui.selected===null)return;const on=ui.saved.has(ui.selected);$('detail-save').textContent=on?'♥ Guardado':'♡ Guardar';$('detail-save').setAttribute('aria-pressed',String(on))}
 function renderCode(){if(ui.selected===null)return;$('component-code').textContent=$('code-format').value==='standalone'?standalone(ui.selected):integration(ui.selected)}
 $('compare-variants').addEventListener('change',e=>{const on=e.target.checked;$('preview-pair').classList.toggle('is-comparing',on);$('baseline-pane').hidden=!on;if(on)engine.mount($('baseline-preview'),ui.selected,{...library.config(),reduced:ui.reduced});else $('baseline-preview').replaceChildren()});
+$('detail-compose').addEventListener('click', () => {
+  const request = new CustomEvent('motion404:insert', {
+    cancelable: true,
+    detail: {id: ui.selected, settings: previewConfig(ui.selected)}
+  });
+  if ($('detail-compose').dispatchEvent(request)) {
+    notify('El proyecto admite hasta 100 bloques. Abre otro proyecto o elimina un bloque.');
+    return;
+  }
+  closeDetail();
+  document.querySelector('.pro-suite-nav [data-pro-go="editor"]').click();
+  $('m4-save').focus({preventScroll:true});
+});
 $('detail-save').addEventListener('click',()=>{if(ui.selected===null)return;ui.saved.has(ui.selected)?ui.saved.delete(ui.selected):ui.saved.add(ui.selected);save();render();syncDetailSave()});
 $('detail-reset').addEventListener('click',()=>{if(ui.selected===null)return;delete ui.configs[ui.selected];save();refreshDetailControls();preview();notify('Ajustes originales restaurados')});
 $('detail-share').addEventListener('click',()=>{if(ui.selected!==null)engine.copy(componentURL(ui.selected)).then(ok=>notify(ok?'Enlace al componente copiado':'No se ha podido copiar'))});
@@ -112,10 +125,10 @@ $('library-new').addEventListener('click',()=>{clearFilters();ui.newOnly=true;re
 $('library-saved').addEventListener('click',()=>{ui.query='';$('search').value='';setCategory('Saved')});
 $('library-reduced').checked=ui.reduced;
 $('library-reduced').addEventListener('change',e=>{ui.reduced=e.target.checked;save();render();preview()});
-$('library-backup').addEventListener('click',()=>{const data={application:'MOTION-404-LIBRARY',version:1,saved:[...ui.saved],configs:Object.fromEntries([...ui.saved].map(id=>[id,config(id)]))};download(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),'MOTION-404-guardados.json');notify('Favoritos y ajustes exportados')});
+$('library-backup').addEventListener('click',()=>{const data={application:'MOTION-404-LIBRARY',version:1,saved:[...ui.saved],configs:{...Object.fromEntries([...ui.saved].map(id=>[id,config(id)])),...ui.configs}};download(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),'MOTION-404-guardados.json');notify('Favoritos y ajustes exportados')});
 $('library-restore').addEventListener('click',()=>$('library-file').click());
 $('library-file').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{if(file.size>1000000)throw Error('La copia supera el límite de 1 MB.');const data=library.importBackup(await file.text(),catalog.map(x=>x.id));for(const id of data.saved)ui.saved.add(id);ui.configs={...ui.configs,...data.configs};save();render();notify(`${data.saved.length} favoritos importados`)}catch(err){notify(err.message)}finally{e.target.value=''}});
-window.addEventListener('load',()=>{const id=Number(new URL(location.href).searchParams.get('component'));if(catalog.some(x=>x.id===id)){document.querySelector('[data-pro-go="catalog"]')?.click();openDetail(id)}});
+window.addEventListener('load',()=>{const id=Number(new URL(location.href).searchParams.get('component'));if(catalog.some(x=>x.id===id)){const url=new URL(location.href);url.hash='catalog';history.replaceState(null,'',url);window.dispatchEvent(new Event('hashchange'));openDetail(id)}});
 
 setTheme();render();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./service-worker.js').catch(err=>console.info('Sin SW:',err.message));

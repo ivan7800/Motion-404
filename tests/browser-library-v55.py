@@ -12,9 +12,59 @@ OUT = Path(os.getenv('MOTION_QA_OUTPUT', '/tmp/motion-library-qa'))
 OUT.mkdir(parents=True, exist_ok=True)
 
 
+
+def exercise_catalog(browser):
+    """Walk the published UI, including the commands exposed after a demo expands."""
+    page = browser.new_page(viewport={'width': 1440, 'height': 960})
+    errors = []
+    page.on('pageerror', lambda exc: errors.append(str(exc)))
+    page.goto(URL + '#catalog')
+    seen_patterns = set()
+    activations = {}
+    for number in range(1, 9):
+        page.locator(f'#pagination-controls [data-page="{number}"]').click()
+        cards = page.locator('[data-inspect]').evaluate_all('els => els.map(el => el.dataset.inspect)')
+        for pattern in cards:
+            page.locator(f'[data-inspect="{pattern}"]').click()
+            demo = page.locator('#detail-preview .demo-root')
+            expect(demo).to_have_attribute('data-demo-id', pattern)
+            visited = set()
+            while True:
+                buttons = demo.locator('[data-act]:visible:not(:disabled)')
+                candidates = buttons.evaluate_all("""els => els.map(el =>
+                    [el.dataset.act, el.dataset.val || '', el.textContent.trim().slice(0,40)])""")
+                index = next((i for i, key in enumerate(candidates) if tuple(key[:2]) not in visited), None)
+                if index is None:
+                    break
+                action, value, _ = candidates[index]
+                visited.add((action, value))
+                buttons.nth(index).click(timeout=4500)
+                if page.locator('#command-overlay').is_visible():
+                    page.keyboard.press('Escape')
+            if pattern == '11':
+                trigger = demo.get_by_role('button', name='Opciones')
+                for i, label in enumerate(['Buscar', 'Favoritos', 'Ajustes']):
+                    expect(trigger).to_have_attribute('aria-expanded', 'false')
+                    expect(demo.locator('.goo-child')).to_have_count(0)
+                    trigger.click()
+                    demo.get_by_role('button', name=label).click()
+                    expect(trigger).to_be_focused()
+                    expect(demo).to_contain_text(f'Opción {i+1}')
+                    visited.add(('tab', str(i)))
+            activations[pattern] = sorted(visited)
+            seen_patterns.add(int(pattern))
+            page.locator('#close-detail').click()
+    assert seen_patterns == set(range(1, 91))
+    assert not errors, errors
+    (OUT / 'catalog-controls.json').write_text(json.dumps(activations, indent=2))
+    print('Catalog inspection:', len(seen_patterns), 'patterns,', sum(map(len, activations.values())), 'demo commands')
+    page.close()
+
+
 def run():
     with sync_playwright() as p:
         browser = p.chromium.launch(executable_path=os.getenv('CHROMIUM_PATH', '/usr/bin/chromium'), headless=True, args=['--no-sandbox'])
+        exercise_catalog(browser)
         context = browser.new_context(viewport={'width': 1440, 'height': 1000}, accept_downloads=True)
         page = context.new_page()
         errors = []
@@ -156,6 +206,38 @@ def run():
         restored.keyboard.press('Shift+Tab')
         assert restored.evaluate("!!document.activeElement.closest('#detail-overlay')")
         restored.keyboard.press('Escape')
+        # Transfer a customized library pattern, then reopen the exported project.
+        restored.locator('[data-inspect="13"]').click()
+        restored.locator('[data-preset="cinema"]').click()
+        restored.locator('#custom-text').fill('Variante de prueba')
+        restored.locator('#reduce-motion').check()
+        restored.locator('#detail-compose').click()
+        expect(restored.locator('#m4-name')).to_be_visible()
+        restored.locator('#m4-save').click()
+        restored.reload()
+        with restored.expect_download() as output:
+            restored.locator('#m4-html').click()
+        path = OUT / 'variante-compuesta.html'
+        output.value.save_as(str(path))
+        viewer = clean.new_page()
+        viewer.goto(path.as_uri())
+        root = viewer.locator('.demo-root[data-demo-id="13"]')
+        for key, value in {'text':'Variante de prueba','accent':'#f2a0ca','speed':'0.75','reduced':'true'}.items():
+            expect(root).to_have_attribute('data-' + key, value)
+        viewer.close()
+        # A project backup containing v3 data must restore without replacing local projects.
+        restored.locator('.pro-suite-nav [data-pro-go="design"]').click()
+        restored.locator('#u-save-design').click()
+        restored.locator('.pro-suite-nav [data-pro-go="editor"]').click()
+        with restored.expect_download() as output:
+            restored.locator('#m4-backup-all').click()
+        backup_path = OUT / 'studio.json'
+        output.value.save_as(str(backup_path))
+        restored.once('dialog', lambda dialog: dialog.accept())
+        restored.locator('#m4-import-file').set_input_files(str(backup_path))
+        expect(restored.locator('#m4-live-region')).to_contain_text('Backup fusionado')
+        assert restored.evaluate("JSON.parse(localStorage.getItem('motion404-v4-imported-v3')).data.designs.length") == 1
+        restored.locator('.pro-suite-nav [data-pro-go="catalog"]').click()
         # All six new exports run without the studio or network resources.
         restored.locator('#library-new').click()
         for id in range(85, 91):
@@ -187,6 +269,13 @@ def run():
         for id in range(85, 91):
             expect(viewer.locator(f'.demo-root[data-demo-id="{id}"]')).to_have_count(1)
         viewer.close()
+        # Each sequencer track uses its own timing, including on repeated playback.
+        restored.locator('.pro-suite-nav [data-pro-go="timeline"]').click()
+        restored.locator('#u-title-delay').fill('830')
+        restored.locator('#u-play').click()
+        timings = restored.locator('#u-anim-target [data-track]').evaluate_all(
+            'els => els.map(el => el.getAnimations()[0].effect.getTiming().delay)')
+        assert timings == [0, 830, 440], timings
         # Touch viewport, mobile dialog, light theme and system reduced motion.
         mobile_context = browser.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True, reduced_motion='reduce')
         mobile = mobile_context.new_page()
@@ -200,6 +289,11 @@ def run():
         expect(await_drawer).to_have_attribute('aria-expanded', 'false')
         await_drawer.tap()
         mobile.locator('.pro-suite-nav [data-pro-go="catalog"]').tap()
+        for destination in ['overview','editor','motion','design','timeline','effects','game','resources','original','catalog']:
+            await_drawer.tap()
+            mobile.locator(f'.pro-suite-nav [data-pro-go="{destination}"]').tap()
+            assert mobile.url.endswith('#' + destination) if destination != 'overview' else not mobile.url.endswith('#catalog')
+            assert mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1'), destination
         mobile.locator('#library-new').click()
         mobile.locator('#theme-toggle').click()
         assert mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1')

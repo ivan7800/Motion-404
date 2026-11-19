@@ -10,3 +10,16 @@ export function validateLegacyV2(value){const b=typeof value==='string'?JSON.par
 export function mergeLegacyV2(current,incoming){const a=validateLegacyV2(current||{saved:[]}),b=validateLegacyV2(incoming),merged=new Map(a.saved.map(x=>[x.id,x]));let added=0,skipped=0;for(const s of b.saved){if(merged.has(s.id)){skipped++;continue}if(merged.size>=50)throw Error('Límite de 50 sistemas. Exporta un backup antes de reducir la colección.');merged.set(s.id,s);added++;}return {result:{theme:a.theme,saved:[...merged.values()]},added,skipped};}
 export function validateV3(value){const b=typeof value==='string'?JSON.parse(value):value;if(!b||b.app!=='motion404-ultimate'||b.version!==3||!b.data||typeof b.data!=='object')throw Error('Backup Ultimate v3 incompatible');for(const key of ['motion','designs','timeline','games','resourceFavorites'])if(!Array.isArray(b.data[key])||b.data[key].length>100)throw Error(`Campo de backup inválido: ${key}`);return b;}
 export function classifyBackup(value){const v=typeof value==='string'?JSON.parse(value):value;if(v?.app==='motion404-ultimate')return {type:'ultimate-v3',value:validateV3(v)};if(v?.schema===4&&Array.isArray(v.projects))return {type:'project-v4',value:v};if(v?.schema===4&&Array.isArray(v.blocks))return {type:'project-v4',value:{schema:4,projects:[v],active:v.id}};return {type:'motion-v2',value:validateLegacyV2(v)};}
+
+// Keep every distinct archived entry, including edits that share a historical ID.
+export function mergeStudioArchives(...sources) {
+  const archives = sources.filter(Boolean).map(validateV3);
+  if (!archives.length) return null;
+  const data = {};
+  for (const key of ['motion', 'designs', 'timeline', 'games', 'resourceFavorites']) {
+    const entries = archives.flatMap(archive => archive.data[key]);
+    data[key] = [...new Map(entries.map(entry => [JSON.stringify(entry), entry])).values()];
+    if (data[key].length > 100) throw Error(`El archivo combinado supera 100 entradas en ${key}.`);
+  }
+  return {app:'motion404-ultimate', version:3, data};
+}
