@@ -1,7 +1,7 @@
 """Browser QA for Web Templates Studio. Run against local MOTION_URL base."""
 import os
 from pathlib import Path
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
 
 BASE = os.environ.get("MOTION_URL", "http://127.0.0.1:8080/").rstrip("/") + "/"
 OUTPUT = Path(os.environ.get("MOTION_QA_OUTPUT", "/tmp/motion-templates-qa"))
@@ -26,8 +26,8 @@ with sync_playwright() as p:
     page.locator("#target").fill("javascript:alert(1)")
     page.locator("#mobile").click()
     assert "mobile" in page.locator("#viewport").get_attribute("class")
-    assert page.frame_locator("#preview").locator("h1").inner_text() == "Mi nueva web"
-    assert page.frame_locator("#preview").locator("a.cta").get_attribute("href") == "#explorar"
+    expect(page.frame_locator("#preview").locator("h1")).to_have_text("Mi nueva web", timeout=5000)
+    expect(page.frame_locator("#preview").locator("a.cta")).to_have_attribute("href", "#explorar", timeout=5000)
     with page.expect_download() as download_info:
         page.locator("#download").click()
     download = download_info.value
