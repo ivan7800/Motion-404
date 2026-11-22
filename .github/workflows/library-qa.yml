@@ -37,6 +37,13 @@ jobs:
         run: |
           export CHROMIUM_PATH="$(command -v google-chrome)"
           npm run qa:library
+      - name: Test web templates editor, mobile preview and exported HTML
+        env:
+          MOTION_URL: http://127.0.0.1:8095/Motion-404/
+          MOTION_QA_OUTPUT: /tmp/motion-library-qa/templates
+        run: |
+          export CHROMIUM_PATH="$(command -v google-chrome)"
+          python tests/browser-templates.py
       - name: Upload browser evidence
         if: always()
         uses: actions/upload-artifact@v4

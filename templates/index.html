@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>MOTION-404 · Web Templates Studio</title>
+<style>
+:root{color-scheme:dark;--bg:#090c14;--panel:#141a27;--line:#30394a;--ink:#f3f5fb;--muted:#a2aec4;--accent:#a78bfa;font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% 0,#1c2540,#090c14 55%);color:var(--ink)}
+a{color:inherit}button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #b9a2ff;outline-offset:2px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:21px clamp(16px,4vw,56px);border-bottom:1px solid var(--line)}
+.brand{text-decoration:none;font-weight:900;letter-spacing:.12em}.brand em{font-style:normal;color:var(--accent)}.back{font-size:13px;text-decoration:none;color:#c8d2e4}
+main{max-width:1540px;margin:auto;padding:42px clamp(16px,4vw,56px) 70px}
+.eyebrow{color:var(--accent);font-weight:800;font-size:11px;letter-spacing:.23em;text-transform:uppercase}
+h1{font-size:clamp(34px,5vw,66px);letter-spacing:-.06em;line-height:1.04;margin:12px 0 16px}h1 em{color:var(--accent);font-style:normal}
+.lead{max-width:740px;color:var(--muted);font-size:17px}.layout{display:grid;grid-template-columns:minmax(280px,350px) minmax(0,1fr);gap:22px;margin-top:35px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px}
+.panel h2{font-size:15px;letter-spacing:.02em;margin:0 0 14px}.template-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.template{border:1px solid #3a465c;border-radius:12px;padding:12px;background:#1b2433;color:var(--ink);text-align:left;min-width:0}
+.template[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:#302941}
+.template strong,.template small{display:block}.template small{color:var(--muted);margin-top:3px;font-size:11px}
+.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:12px;color:#c7d0e0;font-weight:650}
+.field input,.field textarea,.field select{width:100%;border:1px solid #4a566c;background:#0d131f;color:var(--ink);border-radius:10px;padding:10px 12px;min-width:0}.field textarea{resize:vertical;min-height:82px}
+.colors{display:flex;gap:9px;flex-wrap:wrap}.swatch{border:2px solid transparent;background:var(--swatch);width:32px;height:32px;border-radius:50%}.swatch[aria-pressed=true]{outline:2px solid white;outline-offset:2px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px}.actions button,.view-tools button{border:1px solid #4a5670;background:#273246;color:#fff;border-radius:10px;padding:11px 9px}.actions .primary{background:var(--accent);border-color:var(--accent);color:#13111d;font-weight:800}.actions .wide{grid-column:1/-1}
+.preview-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:13px}.preview-header h2{margin:0}.view-tools{display:flex;gap:8px}.view-tools button{padding:8px 13px}.view-tools button[aria-pressed=true]{background:#433568;border-color:var(--accent)}
+.viewport{background:#060912;border:1px solid #445069;border-radius:15px;min-height:560px;padding:10px;display:flex;justify-content:center;transition:padding .2s}.viewport iframe{width:100%;height:670px;border:0;border-radius:10px;background:#fff;transition:max-width .2s}.viewport.mobile iframe{max-width:390px}
+.note{font-size:12px;color:var(--muted);margin:12px 0 0}.status{min-height:22px;color:#aee8be;font-size:12px;margin:12px 0}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.viewport iframe{height:610px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header><a class="brand" href="../">MOTION<em>404</em> <span> / TEMPLATES</span></a><a class="back" href="../">← Volver al estudio</a></header>
+<main>
+<div class="eyebrow">WEB TEMPLATE SYSTEM / 001—008</div>
+<h1>Una idea. <em>Una web completa.</em></h1>
+<p class="lead">Elige una de las ocho plantillas, ajusta sus contenidos y su identidad visual, comprueba escritorio o móvil y exporta HTML editable. Todo sin cuentas ni servidores.</p>
+<div class="layout">
+<section class="panel" aria-label="Editor de plantillas">
+<h2>01 / Elegir plantilla</h2><div id="templates" class="template-grid"></div>
+<h2 style="margin-top:25px">02 / Personalizar</h2>
+<div class="field"><label for="siteName">Nombre del proyecto</label><input id="siteName" maxlength="70"></div>
+<div class="field"><label for="headline">Titular principal</label><input id="headline" maxlength="110"></div>
+<div class="field"><label for="description">Descripción</label><textarea id="description" maxlength="320"></textarea></div>
+<div class="field"><label for="cta">Texto del botón</label><input id="cta" maxlength="35"></div>
+<div class="field"><label for="target">Enlace del botón (https:// o #seccion)</label><input id="target" maxlength="300" placeholder="#seccion"></div>
+<div class="field"><label for="mood">Estilo visual</label><select id="mood"><option value="dark">Oscuro cinematográfico</option><option value="light">Claro editorial</option></select></div>
+<div class="field"><label>Color de acento</label><div class="colors" id="colors"></div></div>
+<div class="actions"><button id="reset">Restablecer</button><button id="copy">Copiar HTML</button><button id="download" class="primary wide">↓ Exportar página HTML</button></div>
+<p id="status" class="status" role="status" aria-live="polite"></p>
+</section>
+<section class="panel" aria-label="Vista previa de la web">
+<div class="preview-header"><h2>03 / Vista previa real</h2><div class="view-tools"><button id="desktop" aria-pressed="true">Escritorio</button><button id="mobile" aria-pressed="false">Móvil</button></div></div>
+<div class="viewport" id="viewport"><iframe id="preview" title="Vista previa de la plantilla" sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe></div>
+<p class="note">La vista previa está aislada en un iframe. La exportación no necesita JavaScript externo; las imágenes de muestra provienen de tu GitHub Pages y requieren conexión. Los botones de muestra son enlaces, no funciones comerciales reales.</p>
+</section>
+</div>
+</main>
+<script>
+(function(){
+'use strict';
+var base='https://ivan7800.github.io/Motion-404/assets/examples/';
+var presets=[
+{id:'portfolio',name:'Portfolio',label:'Creatividad',site:'NOCTURNE STUDIO',headline:'Ideas que dejan huella.',description:'Dirección creativa, diseño digital y experiencias con carácter.',cta:'Ver proyectos',image:'portfolio.webp',eyebrow:'ESTUDIO CREATIVO / 2026',sections:['Identidad visual','Experiencias digitales','Narrativa y movimiento'],accent:'#b9e17e'},
+{id:'ecommerce',name:'Ecommerce',label:'Productos',site:'SEREIN OBJECTS',headline:'Objetos para vivir mejor.',description:'Una colección pensada para quienes encuentran belleza en lo cotidiano.',cta:'Explorar colección',image:'ecommerce.webp',eyebrow:'OBJETOS / NUEVA COLECCIÓN',sections:['Selección destacada','Diseño consciente','Entrega y atención'],accent:'#efbd88'},
+{id:'dashboard',name:'Dashboard',label:'Analítica',site:'SIGNAL OS',headline:'Los datos cuentan una historia.',description:'Un centro de operaciones claro para decisiones importantes.',cta:'Explorar panel',image:'dashboard.webp',eyebrow:'ANALYTICS / COMMAND CENTER',sections:['Rendimiento','Actividad reciente','Objetivos'],accent:'#78c7ff'},
+{id:'gaming',name:'Gaming',label:'Videojuegos',site:'ABYSSAL ARCHIVE',headline:'Atrévete a cruzar el umbral.',description:'Explora mundos imposibles. Encuentra la verdad bajo la oscuridad.',cta:'Descubrir el universo',image:'gaming.webp',eyebrow:'HORROR / EXPERIENCE',sections:['El mundo','Los supervivientes','El misterio'],accent:'#b198ff'},
+{id:'restaurante',name:'Restaurante',label:'Gastronomía',site:'FIRE & FERMENT',headline:'Una experiencia para recordar.',description:'Cocina de temporada, fuego y una forma distinta de compartir.',cta:'Descubrir la carta',image:'restaurant.webp',eyebrow:'COCINA / EXPERIENCIA',sections:['Nuestra cocina','La carta','Dónde encontrarnos'],accent:'#f1a96b'},
+{id:'viajes',name:'Viajes',label:'Turismo',site:'ASTERIA JOURNEYS',headline:'Cada destino es un comienzo.',description:'Rutas singulares y experiencias para mirar el mundo de otra manera.',cta:'Explorar destinos',image:'travel.webp',eyebrow:'DISCOVER / TRAVEL',sections:['Destinos','Experiencias','Tu próxima aventura'],accent:'#82dccd'},
+{id:'automocion',name:'Automoción',label:'Vehículos',site:'VOLTA MOTORS',headline:'El futuro se conduce hoy.',description:'Diseño, potencia e innovación en cada detalle.',cta:'Descubrir el modelo',image:'automotive.webp',eyebrow:'PERFORMANCE / MOBILITY',sections:['Diseño','Tecnología','Prestaciones'],accent:'#8cd3f2'},
+{id:'arquitectura',name:'Arquitectura',label:'Estudio',site:'ATLAS HABITAT',headline:'Espacios que cuentan historias.',description:'Arquitectura contemporánea con sensibilidad por el paisaje.',cta:'Ver arquitectura',image:'architecture.webp',eyebrow:'ARCHITECTURE / SPACES',sections:['Proyectos','Filosofía','El estudio'],accent:'#d4c09b'}
+];
+var colors=['#b9e17e','#a78bfa','#78c7ff','#efbd88','#82dccd','#fa8ba5'];
+var fields=['siteName','headline','description','cta','target','mood'];
+var selected=0,model=null,frameTimer=null;
+var $=function(id){return document.getElementById(id);};
+function escapeHTML(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c];});}
+function safeHref(v){var text=String(v||'').trim();if(/^#[a-z0-9_-]+$/i.test(text))return text;try{var u=new URL(text);if(u.protocol==='https:'||u.protocol==='http:')return u.href;}catch(e){}return '#explorar';}
+function slug(v){return String(v||'web').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,48)||'web';}
+function defaultModel(i){var p=presets[i];return {siteName:p.site,headline:p.headline,description:p.description,cta:p.cta,target:'#explorar',mood:'dark',accent:p.accent};}
+function readModel(){var next={};fields.forEach(function(k){next[k]=$(k).value;});next.accent=model.accent;return next;}
+function sync(){fields.forEach(function(k){$(k).value=model[k];});paintSwatches();paintChoices();render();}
+function paintChoices(){Array.from($('templates').children).forEach(function(el,i){el.setAttribute('aria-pressed',String(i===selected));});}
+function paintSwatches(){$('colors').innerHTML='';colors.forEach(function(color){var b=document.createElement('button');b.className='swatch';b.type='button';b.style.setProperty('--swatch',color);b.setAttribute('aria-label','Color '+color);b.setAttribute('aria-pressed',String(model.accent===color));b.addEventListener('click',function(){model.accent=color;paintSwatches();render();});$('colors').appendChild(b);});}
+function pageHTML(){
+ var p=presets[selected],m=model,light=m.mood==='light';
+ var background=light?'#f6f5f0':'#090e17',foreground=light?'#161f2a':'#f4f6fc',surface=light?'#e6e9ea':'#152030',muted=light?'#4c5964':'#b5c1d0';
+ var accent=colors.includes(m.accent)||presets.some(function(q){return q.accent===m.accent;})?m.accent:p.accent;
+ var tiles=p.sections.map(function(t,i){return '<article><span>0'+(i+1)+'</span><h3>'+escapeHTML(t)+'</h3><p>'+escapeHTML(['Una visión cuidada hasta el último detalle.','Experiencias pensadas para personas reales.','Una nueva manera de descubrir posibilidades.'][i])+'</p></article>';}).join('');
+ return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="'+escapeHTML(m.description)+'"><title>'+escapeHTML(m.siteName)+'</title><style>'+
+ ':root{color-scheme:'+(light?'light':'dark')+';--bg:'+background+';--fg:'+foreground+';--surface:'+surface+';--muted:'+muted+';--accent:'+accent+';font-family:system-ui,-apple-system,Segoe UI,sans-serif}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--fg)}a{color:inherit}a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}nav{max-width:1280px;margin:auto;padding:28px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px}nav strong{font-size:18px;letter-spacing:.12em}nav a{text-decoration:none;font-size:12px;border:1px solid currentColor;border-radius:50px;padding:9px 16px}main{max-width:1280px;margin:auto;padding:0 5%}.hero{min-height:490px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:42px;padding:55px 0 75px}.tag{font-size:11px;letter-spacing:.2em;color:var(--accent);font-weight:800}.copy h1{font-size:clamp(40px,5.7vw,82px);letter-spacing:-.07em;line-height:1.02;margin:18px 0 22px}.copy p{font-size:clamp(15px,1.5vw,19px);color:var(--muted);line-height:1.7;max-width:520px}.cta{display:inline-block;margin-top:21px;padding:15px 23px;border-radius:50px;background:var(--accent);color:#10131b;text-decoration:none;font-weight:750}.art{min-height:365px;position:relative;overflow:hidden;border-radius:25px;background:var(--surface)}.art img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.2,1)}.art:hover img{transform:scale(1.055)}.art:after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,#0609108a)}.art small{position:absolute;left:25px;bottom:22px;z-index:1;color:#fff;letter-spacing:.2em;font-weight:800}.section-head{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--muted);padding:20px 0}.section-head h2{font-size:clamp(27px,3vw,41px);letter-spacing:-.05em;margin:0}.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding:24px 0 90px}.features article{padding:26px;min-height:185px;background:var(--surface);border-radius:18px}.features span{color:var(--accent);font-size:12px}.features h3{font-size:22px;letter-spacing:-.04em}.features p{line-height:1.5;color:var(--muted);font-size:14px}footer{padding:27px 5%;border-top:1px solid var(--surface);font-size:12px;color:var(--muted);text-align:center}@media(max-width:700px){.hero{grid-template-columns:1fr;gap:20px;padding:25px 0 50px}.art{min-height:270px}.features{grid-template-columns:1fr;padding-bottom:45px}nav{padding:19px 5%}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}'+
+ '</style></head><body><nav><strong>'+escapeHTML(m.siteName)+'</strong><a href="#explorar">Explorar ↓</a></nav><main><section class="hero"><div class="copy"><div class="tag">'+escapeHTML(p.eyebrow)+'</div><h1>'+escapeHTML(m.headline)+'</h1><p>'+escapeHTML(m.description)+'</p><a class="cta" href="'+escapeHTML(safeHref(m.target))+'">'+escapeHTML(m.cta)+' ↗</a></div><div class="art"><img src="'+base+p.image+'" alt="'+escapeHTML(p.name)+'"><small>'+escapeHTML(p.site)+'</small></div></section><section id="explorar" aria-label="Explorar"><div class="section-head"><h2>Explora lo esencial.</h2><span class="tag">01—03 / COLLECTION</span></div><div class="features">'+tiles+'</div></section></main><footer>© '+new Date().getFullYear()+' '+escapeHTML(m.siteName)+' · Web creada con MOTION-404</footer></body></html>';
+}
+function render(){if(frameTimer)clearTimeout(frameTimer);frameTimer=setTimeout(function(){$('preview').srcdoc=pageHTML();},120);}
+function notice(msg){$('status').textContent=msg;}
+function download(text,name){var blob=new Blob([text],{type:'text/html;charset=utf-8'});var url=URL.createObjectURL(blob);var link=document.createElement('a');link.href=url;link.download=name;document.body.appendChild(link);link.click();link.remove();setTimeout(function(){URL.revokeObjectURL(url);},15000);}
+function select(i){selected=i;model=defaultModel(i);sync();notice('Plantilla '+presets[i].name+' seleccionada.');}
+presets.forEach(function(p,i){var b=document.createElement('button');b.type='button';b.className='template';b.innerHTML='<strong>'+escapeHTML(p.name)+'</strong><small>'+escapeHTML(p.label)+'</small>';b.addEventListener('click',function(){select(i);});$('templates').appendChild(b);});
+fields.forEach(function(k){$(k).addEventListener('input',function(){model=readModel();render();});});
+$('reset').addEventListener('click',function(){select(selected);notice('Valores restaurados.');});
+$('download').addEventListener('click',function(){download(pageHTML(),slug(model.siteName)+'-motion404.html');notice('HTML generado.');});
+$('copy').addEventListener('click',async function(){try{await navigator.clipboard.writeText(pageHTML());notice('Código HTML copiado.');}catch(e){notice('No se pudo copiar. Usa Exportar página HTML.');}});
+['desktop','mobile'].forEach(function(mode){$(mode).addEventListener('click',function(){$('viewport').classList.toggle('mobile',mode==='mobile');$('desktop').setAttribute('aria-pressed',String(mode==='desktop'));$('mobile').setAttribute('aria-pressed',String(mode==='mobile'));});});
+select(0);
+})();
+</script>
+</body>
+</html>
